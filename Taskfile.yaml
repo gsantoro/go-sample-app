@@ -5,6 +5,9 @@ tasks:
     cmds:
       - go build -v -i main.go
 
+  run:  
+    cmds: 
+      - air -c .air.toml
 
   install-linter:
     cmds: 
