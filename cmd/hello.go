@@ -15,8 +15,8 @@ func main() {
 	zerolog.TimeFieldFormat = zerolog.TimeFormatUnix
 	logger := log.Output(zerolog.ConsoleWriter{Out: os.Stderr})
 
-	r := gin.Default()
-	r.GET("/ping", func(c *gin.Context) {
+	router := gin.Default()
+	router.GET("/ping", func(c *gin.Context) {
 		logger.Debug().
 			Str("method", c.Request.Method).
 			Str("endpoint", c.Request.RequestURI).
@@ -26,5 +26,17 @@ func main() {
 			"message": "pong",
 		})
 	})
-	r.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
+
+	err := router.SetTrustedProxies(nil)
+	if err != nil {
+		logger.Error().Err(err)
+	}
+
+	addr := "0.0.0.0:8080"
+	err = router.Run(addr)
+	if err != nil {
+		logger.Error().
+			Str("endpoint", addr).
+			Msg("Cannot start server")
+	}
 }
