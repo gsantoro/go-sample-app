@@ -1,0 +1,13 @@
+version: '3'
+
+tasks:
+  build:
+    cmds:
+      - go build -v -i main.go
+
+
+  install-linter:
+    cmds: 
+    # version: 1.48.0_1
+      - brew install golangci-lint
+      - brew upgrade golangci-lint
