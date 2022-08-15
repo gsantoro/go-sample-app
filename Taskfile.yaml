@@ -1,9 +1,12 @@
 version: '3'
 
+vars:
+  KUBERNETES_VERSION: v1.24.0
+
 tasks:
   build:
     cmds:
-      - go build -v -i main.go
+      - go build -v -tags=go_json cmd/hello.go -o build/hello
 
   run:  
     cmds: 
@@ -14,3 +17,46 @@ tasks:
     # version: 1.48.0_1
       - brew install golangci-lint
       - brew upgrade golangci-lint
+
+  k8s-cluster:
+    cmds:
+      # NOTE: fail if podman has a machien running. maybe out of resources
+      # - kind create cluster --config k8s/config.yaml --image=kindest/node:{{.KUBERNETES_VERSION}}
+      - kind create cluster
+  k8s-cluster-remove:
+    cmds:
+      - kind delete cluster
+
+
+  ####
+  # Prometheus
+  ####
+  prometheus-install:
+    cmds:
+      - helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+      - helm install prometheus-community/prometheus --generate-name
+  
+  prometheus-open:
+    cmds: 
+      - open http://localhost:9090
+      - kubectl --namespace default port-forward {{.POD_NAME}} 9090
+    vars:
+      POD_NAME:
+        sh: kubectl get pods --namespace default -l "app=prometheus,component=server" -o jsonpath="{.items[0].metadata.name}"
+
+  prometheus-alert-manager:
+    cmds: 
+      - open http://localhost:9093
+      - kubectl --namespace default port-forward {{.POD_NAME}} 9093
+    vars:
+      POD_NAME: 
+        sh: kubectl get pods --namespace default -l "app=prometheus,component=alertmanager" -o jsonpath="{.items[0].metadata.name}"
+  
+  prometheus-push-gateway:
+    cmds: 
+      - open http://localhost:9091
+      - kubectl --namespace default port-forward {{.POD_NAME}} 9091
+    vars:
+      POD_NAME: 
+        sh: kubectl get pods --namespace default -l "app=prometheus,component=pushgateway" -o jsonpath="{.items[0].metadata.name}"
+
