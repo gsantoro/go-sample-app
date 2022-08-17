@@ -8,7 +8,7 @@ import (
 	"github.com/rs/zerolog/log"
 
 	"github.com/gin-gonic/gin"
-	"github.com/zsais/go-gin-prometheus"
+	"github.com/zsais/go-gin-prometheus" //nolint:goimports  // indirectly imported with `ginprometheus`
 )
 
 func main() {

@@ -10,6 +10,7 @@ tasks:
 
   run:  
     cmds: 
+      - open http://localhost:8080
       - air -c .air.toml
 
   install-linter:
@@ -17,6 +18,10 @@ tasks:
     # version: 1.48.0_1
       - brew install golangci-lint
       - brew upgrade golangci-lint
+
+  lint:
+    cmds:
+      - golangci-lint run --fast
 
   k8s-cluster:
     cmds:
@@ -29,12 +34,39 @@ tasks:
 
 
   ####
+  # Grafana
+  ####
+  grafana-install:
+    cmds: 
+      - helm repo add grafana https://grafana.github.io/helm-charts
+      - helm install my-release grafana/grafana
+
+  grafana-open:
+    cmds:
+      - kubectl --namespace default port-forward {{.POD_NAME}} 3000
+    vars:
+      POD_NAME:
+        sh: kubectl get pods --namespace default -l "app.kubernetes.io/name=grafana,app.kubernetes.io/instance=my-release" -o jsonpath="{.items[0].metadata.name}"
+
+  grafana-password:
+    cmds:
+      - kubectl get secret --namespace default my-release-grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
+
+  ####
   # Prometheus
   ####
   prometheus-install:
     cmds:
       - helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
-      - helm install prometheus-community/prometheus --generate-name
+      - helm install -f k8s/prometheus/values.yaml prometheus-community/prometheus --generate-name
+
+  prometheus-values:
+    cmds: 
+      - helm show values prometheus-community/prometheus
+
+  prometheus-remove:
+    cmds:
+      - helm uninstall prometheus-community/prometheus
   
   prometheus-open:
     cmds: 
@@ -54,9 +86,23 @@ tasks:
   
   prometheus-push-gateway:
     cmds: 
-      - open http://localhost:9091
       - kubectl --namespace default port-forward {{.POD_NAME}} 9091
     vars:
       POD_NAME: 
         sh: kubectl get pods --namespace default -l "app=prometheus,component=pushgateway" -o jsonpath="{.items[0].metadata.name}"
 
+  prometheus-push-metrics:
+    cmds: 
+      # - echo "some_metric 3.14" | curl --data-binary @- http://localhost:9091/metrics/job/some_job
+      # - curl -v --data-binary @tmp/metrics.yaml http://localhost:9091/metrics/job/hello_api
+      - |
+        for (( ; ; ))
+        do
+          curl -s --data-binary @tmp/metrics.yaml http://localhost:9091/metrics/job/hello_api
+          date
+          sleep 5
+        done
+
+  prometheus-push-metrics-remove:
+    cmds:
+      - curl -X DELETE http://localhost:9091/metrics/job/some_job

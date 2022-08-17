@@ -53,3 +53,4 @@ go.work
 ## Personal changes
 .vscode/
 build
+tmp
