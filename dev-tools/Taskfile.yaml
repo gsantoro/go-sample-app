@@ -11,9 +11,26 @@ tasks:
     # - brew install kind
     # - go install github.com/cosmtrek/air@latest
     # - brew install helm
-    - brew install asciinema
+    # - brew install asciinema
+    # [dive](https://github.com/wagoodman/dive) = inspect docker images
+    - brew install dive
 
-  # Asciicinema
+
+  ####
+  # Docker
+  ####
+  docker-build:
+    cmds:
+      - cd .. && docker build -t go-sample-app:latest -f dev-tools/docker/Dockerfile .
+
+  docker-inspect:
+    cmds:
+      - dive go-sample-app:latest
+
+
+  ####
+  # Asciinema
+  ####
   install-asciinema-recorder:
     cmds: 
       # - cd {{.WORKSPACE}} && gh repo clone zechris/asciinema-rec_script
@@ -27,6 +44,8 @@ tasks:
       # - source ~/.profiles.d/rust.sh && cd {{.WORKSPACE}}/asciinema-agg && cargo build -r 
       - echo 'export PATH=$PATH:{{.WORKSPACE}}/asciinema-agg/target/release' >> ~/.profiles.d/asciinema.sh # add script to path
 
+  # how to use:
+  #   task script-to-gif -- sample_script.sh
   script-to-gif:
     cmds:
       - asciinema-rec_script {{.CLI_ARGS}}
@@ -34,8 +53,9 @@ tasks:
       - mv {{.CLI_ARGS}}.cast {{.CLI_ARGS}}.gif ascii
 
 
+  ####
   # golang
-
+  ####
   build:
     cmds:
       - go build -v -tags=go_json -o ../build/hello ../cmd/hello.go
