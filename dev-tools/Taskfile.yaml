@@ -72,8 +72,8 @@ tasks:
 
   run:  
     cmds: 
-      - open http://localhost:8080
-      - air -c .air.toml
+      - open http://localhost:8080/ping
+      - cd .. && air -c .air.toml
 
   install-linter:
     cmds: 

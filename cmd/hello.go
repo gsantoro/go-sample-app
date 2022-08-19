@@ -3,19 +3,25 @@ package main
 import (
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 
 	"github.com/gin-gonic/gin"
-	"github.com/zsais/go-gin-prometheus" //nolint:goimports  // indirectly imported with `ginprometheus`
+	ginprometheus "github.com/zsais/go-gin-prometheus"
 )
 
 func main() {
-	zerolog.TimeFieldFormat = zerolog.TimeFormatUnix
-	logger := log.Output(zerolog.ConsoleWriter{Out: os.Stderr})
+	// zerolog.TimeFieldFormat = zerolog.TimeFormatUnixMs
+	logger := log.Output(zerolog.ConsoleWriter{
+		Out:        os.Stderr,
+		TimeFormat: time.RFC3339,
+	})
 
-	r := gin.Default()
+	// r := gin.Default()
+	r := gin.New()
+	r.Use(Logger(logger))
 	r.GET("/ping", Ping)
 
 	p := ginprometheus.NewPrometheus("gin")
@@ -36,12 +42,27 @@ func main() {
 }
 
 func Ping(c *gin.Context) {
-	// logger.Debug().
-	// 	Str("method", c.Request.Method).
-	// 	Str("endpoint", c.Request.RequestURI).
-	// 	Msg("Pong")
-
 	c.JSON(http.StatusOK, gin.H{
 		"message": "pong",
 	})
+}
+
+func Logger(logger zerolog.Logger) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		t := time.Now()
+
+		c.Next()
+
+		latency := time.Since(t)
+		status := c.Writer.Status()
+		requestURI := c.Request.RequestURI
+		method := c.Request.Method
+
+		logger.Debug().
+			Str("method", method).
+			Int("status", status).
+			Dur("latency_ms", latency).
+			Str("endpoint", requestURI).
+			Msg("")
+	}
 }
