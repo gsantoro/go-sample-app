@@ -1,4 +1,5 @@
-FROM gcr.io/distroless/base-debian11
+# https://github.com/GoogleContainerTools/distroless
+FROM gcr.io/distroless/static-debian11
 
 COPY build/hello /app
 CMD ["/app"]

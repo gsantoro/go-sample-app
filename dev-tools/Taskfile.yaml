@@ -3,6 +3,8 @@ version: '3'
 vars:
   WORKSPACE: "~/workspace/personal"
   KUBERNETES_VERSION: v1.24.0
+  DOCKER_IMAGE_NAME: go-sample-app
+  DOCKER_IMAGE_TAG: latest
 
 tasks:
   install-prerequisites:
@@ -22,15 +24,19 @@ tasks:
   docker-build:
     deps: [build]
     cmds:
-      - cd .. && docker build -t go-sample-app:latest -f dev-tools/docker/Dockerfile .
+      - cd .. && docker build -t {{.DOCKER_IMAGE_NAME}}:{{.DOCKER_IMAGE_TAG}} -f dev-tools/docker/Dockerfile .
 
   docker-inspect:
     cmds:
-      - dive go-sample-app:latest
+      - dive {{.DOCKER_IMAGE_NAME}}:{{.DOCKER_IMAGE_TAG}}
+
+  docker-scan:
+    cmds: 
+      - docker scan {{.DOCKER_IMAGE_NAME}}:{{.DOCKER_IMAGE_TAG}}
 
   docker-run:
     cmds: 
-      - docker run -it go-sample-app:latest
+      - docker run -it {{.DOCKER_IMAGE_NAME}}:{{.DOCKER_IMAGE_TAG}}
 
   ####
   # Asciinema
