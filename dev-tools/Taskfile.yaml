@@ -1,12 +1,44 @@
 version: '3'
 
 vars:
+  WORKSPACE: "~/workspace/personal"
   KUBERNETES_VERSION: v1.24.0
 
 tasks:
+  install-prerequisites:
+    # - brew install go-task/tap/go-task  // needed to run this command. need to run manually
+    # - task: install-linter:
+    # - brew install kind
+    # - go install github.com/cosmtrek/air@latest
+    # - brew install helm
+    - brew install asciinema
+
+  # Asciicinema
+  install-asciinema-recorder:
+    cmds: 
+      # - cd {{.WORKSPACE}} && gh repo clone zechris/asciinema-rec_script
+      - echo 'export PATH=$PATH:{{.WORKSPACE}}/asciinema-rec_script/bin/' >> ~/.profiles.d/asciinema.sh # add script to path
+      # - source ~/.profiles.d/asciinema.sh  # run in your terminal
+
+  install-asciinema-gif:
+    cmds:
+      # - curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh # install Rush
+      # - cd {{.WORKSPACE}} && gh repo clone asciinema/agg asciinema-agg
+      # - source ~/.profiles.d/rust.sh && cd {{.WORKSPACE}}/asciinema-agg && cargo build -r 
+      - echo 'export PATH=$PATH:{{.WORKSPACE}}/asciinema-agg/target/release' >> ~/.profiles.d/asciinema.sh # add script to path
+
+  script-to-gif:
+    cmds:
+      - asciinema-rec_script {{.CLI_ARGS}}
+      - agg --speed 0.5 --theme solarized-dark {{.CLI_ARGS}}.cast {{.CLI_ARGS}}.gif
+      - mv {{.CLI_ARGS}}.cast {{.CLI_ARGS}}.gif ascii
+
+
+  # golang
+
   build:
     cmds:
-      - go build -v -tags=go_json cmd/hello.go -o build/hello
+      - go build -v -tags=go_json -o ../build/hello ../cmd/hello.go
 
   run:  
     cmds: 
