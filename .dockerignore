@@ -1,7 +1,9 @@
-build
 .vscode
 .github
 .dev-tools
 tmp
 .gitignore
 .golangci.yml
+cmd
+go.mod
+go.sum

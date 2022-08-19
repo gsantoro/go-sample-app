@@ -20,6 +20,7 @@ tasks:
   # Docker
   ####
   docker-build:
+    deps: [build]
     cmds:
       - cd .. && docker build -t go-sample-app:latest -f dev-tools/docker/Dockerfile .
 
@@ -27,6 +28,9 @@ tasks:
     cmds:
       - dive go-sample-app:latest
 
+  docker-run:
+    cmds: 
+      - docker run -it go-sample-app:latest
 
   ####
   # Asciinema
@@ -58,7 +62,7 @@ tasks:
   ####
   build:
     cmds:
-      - go build -v -tags=go_json -o ../build/hello ../cmd/hello.go
+      - GOOS=linux GOARCH=amd64 go build -v -tags=go_json -o ../build/hello ../cmd/hello.go
 
   run:  
     cmds: 
