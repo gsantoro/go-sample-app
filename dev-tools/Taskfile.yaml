@@ -1,5 +1,7 @@
 version: '3'
 
+dotenv: ['.env']
+
 vars:
   WORKSPACE: "~/workspace/personal"
   KUBERNETES_VERSION: v1.24.0
@@ -14,8 +16,14 @@ tasks:
     # - go install github.com/cosmtrek/air@latest
     # - brew install helm
     # - brew install asciinema
-    # [dive](https://github.com/wagoodman/dive) = inspect docker images
-    - brew install dive
+    # # [dive](https://github.com/wagoodman/dive) = inspect docker images
+    # - brew install dive
+    # - go install github.com/mattn/goreman@latest
+    # [newman]() = run postman from cli
+    # - brew install newman
+    # [cassowary](https://github.com/rogerwelin/cassowary) = load tester in Golang
+    # [drill](https://github.com/fcsonline/drill) = another load tester
+    # [k6](https://k6.io/) = load tester in js
 
 
   ####
@@ -72,8 +80,8 @@ tasks:
 
   run:  
     cmds: 
-      - open http://localhost:8080/ping
-      - cd .. && air -c .air.toml
+      - open http://localhost:$PORT/ping
+      - cd .. && air -c .air.toml &
 
   install-linter:
     cmds: 
@@ -94,6 +102,16 @@ tasks:
     cmds:
       - kind delete cluster
 
+  # run processes in .Procfile
+  dev:
+    cmds:
+      - task: run
+      - goreman start
+    ignore_error: true
+
+  test:
+    cmds:
+      - newman run test/api.json -e test/env.json -n 100 --delay-request 100
 
   ####
   # Grafana
@@ -105,6 +123,7 @@ tasks:
 
   grafana-open:
     cmds:
+      - open http://localhost:3000
       - kubectl --namespace default port-forward {{.POD_NAME}} 3000
     vars:
       POD_NAME:
@@ -132,7 +151,7 @@ tasks:
   
   prometheus-open:
     cmds: 
-      - open http://localhost:9090
+      # - open http://localhost:9090
       - kubectl --namespace default port-forward {{.POD_NAME}} 9090
     vars:
       POD_NAME:
@@ -146,7 +165,7 @@ tasks:
       POD_NAME: 
         sh: kubectl get pods --namespace default -l "app=prometheus,component=alertmanager" -o jsonpath="{.items[0].metadata.name}"
   
-  prometheus-push-gateway:
+  prometheus-push-gateway-open:
     cmds: 
       - kubectl --namespace default port-forward {{.POD_NAME}} 9091
     vars:
@@ -157,9 +176,11 @@ tasks:
     cmds: 
       # - echo "some_metric 3.14" | curl --data-binary @- http://localhost:9091/metrics/job/some_job
       # - curl -v --data-binary @tmp/metrics.yaml http://localhost:9091/metrics/job/hello_api
+      - sleep 5
       - |
         for (( ; ; ))
         do
+          curl -s -o tmp/metrics.yaml http://localhost:8080/metrics
           curl -s --data-binary @tmp/metrics.yaml http://localhost:9091/metrics/job/hello_api
           date
           sleep 5
