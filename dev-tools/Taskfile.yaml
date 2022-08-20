@@ -81,7 +81,7 @@ tasks:
   run:  
     cmds: 
       - open http://localhost:$PORT/ping
-      - cd .. && air -c .air.toml &
+      - cd .. && air -c .air.toml
 
   install-linter:
     cmds: 
@@ -105,13 +105,14 @@ tasks:
   # run processes in .Procfile
   dev:
     cmds:
-      - task: run
       - goreman start
-    ignore_error: true
 
   test:
     cmds:
-      - newman run test/api.json -e test/env.json -n 100 --delay-request 100
+      - newman run test/go-sample-app.postman_collection.json {{.ENV_VARS}} -n 100 --delay-request 100
+    vars: 
+      ENV_VARS:
+        sh: cat .env | sed -E 's/(.*)=(.*)/--env-var "\1=\2"/' | tr '\n' ' '
 
   ####
   # Grafana

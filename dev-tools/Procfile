@@ -1,3 +1,4 @@
+app: task run
 prometheus: task prometheus-open
 prom-push-gateway: task prometheus-push-gateway-open
 push-metrics: task prometheus-push-metrics

@@ -12,14 +12,14 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://{{hostname}}:{{port}}/ping",
+					"raw": "http://{{HOSTNAME}}:{{PORT}}/metrics",
 					"protocol": "http",
 					"host": [
-						"{{hostname}}"
+						"{{HOSTNAME}}"
 					],
-					"port": "{{port}}",
+					"port": "{{PORT}}",
 					"path": [
-						"ping"
+						"metrics"
 					]
 				}
 			},
