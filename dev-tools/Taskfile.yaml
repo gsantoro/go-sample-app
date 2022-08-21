@@ -76,12 +76,26 @@ tasks:
   ####
   build:
     cmds:
-      - GOOS=linux GOARCH=amd64 go build -v -tags=go_json -o ../build/hello ../cmd/hello.go
+      # GOOS=linux GOARCH=amd64 
+      - go build -v -tags=go_json -o ../build/hello ../cmd/hello.go
 
   run:  
     cmds: 
-      - open http://localhost:$PORT/ping
+      - ../build/hello
+
+  live:
+    cmds: 
       - cd .. && air -c .air.toml
+
+  reload:
+    cmds: 
+      - echo "Killing server process."
+      - pkill -f "../build/hello" || true
+      - pkill -f "/Users/gsantoro/workspace/personal/go-sample-app/build/hello" || true
+      - echo "Removing old binary"
+      - rm -rf build/hello || true
+      - echo "Building and restarting a new serber instance"
+      - task: build
 
   install-linter:
     cmds: 
@@ -103,7 +117,7 @@ tasks:
       - kind delete cluster
 
   # run processes in .Procfile
-  dev:
+  start:
     cmds:
       - goreman start
 
@@ -175,18 +189,16 @@ tasks:
 
   prometheus-push-metrics:
     cmds: 
-      # - echo "some_metric 3.14" | curl --data-binary @- http://localhost:9091/metrics/job/some_job
-      # - curl -v --data-binary @tmp/metrics.yaml http://localhost:9091/metrics/job/hello_api
       - sleep 5
       - |
-        for (( ; ; ))
+        for (( i=1; ;i++))
         do
           curl -s -o tmp/metrics.yaml http://localhost:8080/metrics
           curl -s --data-binary @tmp/metrics.yaml http://localhost:9091/metrics/job/hello_api
-          date
-          sleep 5
+          echo $i
+          sleep 10
         done
 
   prometheus-push-metrics-remove:
     cmds:
-      - curl -X DELETE http://localhost:9091/metrics/job/some_job
+      - curl -X DELETE http://localhost:9091/metrics/job/hello_api

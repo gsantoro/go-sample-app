@@ -32,7 +32,7 @@ func main() {
 		logger.Error().Err(err)
 	}
 
-	addr := "0.0.0.0:8080"
+	addr := ":8080"
 	err = r.Run(addr)
 	if err != nil {
 		logger.Error().
