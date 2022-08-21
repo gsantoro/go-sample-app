@@ -23,7 +23,6 @@ func main() {
 	// r := gin.Default()
 	r := gin.New()
 	r.Use(Logger(logger))
-	r.GET("/ping", Ping)
 
 	p := ginprometheus.NewPrometheus("gin")
 	p.Use(r)
@@ -32,6 +31,8 @@ func main() {
 	if err != nil {
 		logger.Error().Err(err)
 	}
+
+	r.GET("/ping", Ping)
 
 	hostname := os.Getenv("HOSTNAME")
 	port := os.Getenv("PORT")

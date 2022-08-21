@@ -91,11 +91,12 @@ tasks:
   reload:
     cmds: 
       - echo "Killing server process."
-      - pkill -f "../build/hello" || true
+      # - pkill -f "../build/hello" || true
       - pkill -f "/Users/gsantoro/workspace/personal/go-sample-app/build/hello" || true
       - echo "Removing old binary"
-      - rm -rf build/hello || true
+      - rm -rf ../build/hello || true
       - echo "Building and restarting a new serber instance"
+      - task: lint
       - task: build
 
   install-linter:
@@ -106,7 +107,7 @@ tasks:
 
   lint:
     cmds:
-      - golangci-lint run --fast
+      - golangci-lint run --fast ../...
 
   k8s-cluster:
     cmds:
