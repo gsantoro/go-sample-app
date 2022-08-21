@@ -94,10 +94,11 @@ tasks:
       # - pkill -f "../build/hello" || true
       - pkill -f "/Users/gsantoro/workspace/personal/go-sample-app/build/hello" || true
       - echo "Removing old binary"
-      - rm -rf ../build/hello || true
+      - rm -rf ../build/* || true
       - echo "Building and restarting a new serber instance"
       - task: lint
-      - task: build
+      - task: fmt
+      # - task: build
 
   install-linter:
     cmds: 
@@ -108,6 +109,10 @@ tasks:
   lint:
     cmds:
       - golangci-lint run --fast ../...
+  
+  fmt:
+    cmds:
+      - gofmt -l -w ..
 
   k8s-cluster:
     cmds:
