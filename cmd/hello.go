@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 	"os"
 	"time"
@@ -32,7 +33,10 @@ func main() {
 		logger.Error().Err(err)
 	}
 
-	addr := ":8080"
+	hostname := os.Getenv("HOSTNAME")
+	port := os.Getenv("PORT")
+
+	addr := fmt.Sprintf("%s:%s", hostname, port)
 	err = r.Run(addr)
 	if err != nil {
 		logger.Error().
