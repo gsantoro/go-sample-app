@@ -33,7 +33,7 @@ tasks:
   docker-build:
     deps: [build]
     cmds:
-      - cd .. && docker build -t {{.DOCKER_IMAGE_NAME}}:{{.DOCKER_IMAGE_TAG}} -f tools/docker/Dockerfile .
+      - cd .. && docker build -t {{.DOCKER_IMAGE_NAME}}:{{.DOCKER_IMAGE_TAG}} -f deployments/docker/Dockerfile .
 
   docker-inspect:
     cmds:
@@ -117,7 +117,7 @@ tasks:
   k8s-cluster:
     cmds:
       # NOTE: fail if podman has a machien running. maybe out of resources
-      # - kind create cluster --config k8s/config.yaml --image=kindest/node:{{.KUBERNETES_VERSION}}
+      # - cd .. && kind create cluster --config deploymets/kubernetes/config.yaml --image=kindest/node:{{.KUBERNETES_VERSION}}
       - kind create cluster
   k8s-cluster-remove:
     cmds:
@@ -161,7 +161,7 @@ tasks:
   prometheus-install:
     cmds:
       - helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
-      - helm install -f k8s/prometheus/values.yaml prometheus-community/prometheus --generate-name
+      - cd .. && helm install -f deploymets/kubernetes/prometheus/values.yaml prometheus-community/prometheus --generate-name
 
   prometheus-values:
     cmds: 
