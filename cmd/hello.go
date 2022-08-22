@@ -2,27 +2,21 @@ package main
 
 import (
 	"fmt"
-	"net/http"
 	"os"
-	"time"
 
-	"github.com/rs/zerolog"
-	"github.com/rs/zerolog/log"
+	log "github.com/gsantoro/go-sample-app/internal/logger"
+	"github.com/gsantoro/go-sample-app/internal/rest"
 
 	"github.com/gin-gonic/gin"
 	ginprometheus "github.com/zsais/go-gin-prometheus"
 )
 
 func main() {
-	// zerolog.TimeFieldFormat = zerolog.TimeFormatUnixMs
-	logger := log.Output(zerolog.ConsoleWriter{
-		Out:        os.Stderr,
-		TimeFormat: time.RFC3339,
-	})
+	logger := log.GetLogger()
 
 	// r := gin.Default()
 	r := gin.New()
-	r.Use(Logger(logger))
+	r.Use(log.LoggerMiddleware(logger))
 
 	p := ginprometheus.NewPrometheus("gin")
 	p.Use(r)
@@ -32,7 +26,8 @@ func main() {
 		logger.Error().Err(err)
 	}
 
-	r.GET("/ping", Ping)
+	r.GET("/ping", rest.Ping)
+	r.GET("/health", rest.Health)
 
 	hostname := os.Getenv("HOSTNAME")
 	port := os.Getenv("PORT")
@@ -43,31 +38,5 @@ func main() {
 		logger.Error().
 			Str("endpoint", addr).
 			Msg("Cannot start server")
-	}
-}
-
-func Ping(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{
-		"message": "pong",
-	})
-}
-
-func Logger(logger zerolog.Logger) gin.HandlerFunc {
-	return func(c *gin.Context) {
-		t := time.Now()
-
-		c.Next()
-
-		latency := time.Since(t)
-		status := c.Writer.Status()
-		requestURI := c.Request.RequestURI
-		method := c.Request.Method
-
-		logger.Debug().
-			Str("method", method).
-			Int("status", status).
-			Dur("latency_ms", latency).
-			Str("endpoint", requestURI).
-			Msg("")
 	}
 }

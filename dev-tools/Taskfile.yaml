@@ -82,7 +82,7 @@ tasks:
 
   run:  
     cmds: 
-      - godotenv -f .env ../build/hello
+      - godotenv -f ../.env ../build/hello
 
   live:
     cmds: 
@@ -98,7 +98,7 @@ tasks:
       - echo "Building and restarting a new serber instance"
       - task: lint
       - task: fmt
-      # - task: build
+      - task: build
 
   install-linter:
     cmds: 
