@@ -54,4 +54,4 @@ go.work
 .vscode/
 build
 tmp
-dev-tools/ascii
+tools/ascii

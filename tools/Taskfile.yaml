@@ -33,7 +33,7 @@ tasks:
   docker-build:
     deps: [build]
     cmds:
-      - cd .. && docker build -t {{.DOCKER_IMAGE_NAME}}:{{.DOCKER_IMAGE_TAG}} -f dev-tools/docker/Dockerfile .
+      - cd .. && docker build -t {{.DOCKER_IMAGE_NAME}}:{{.DOCKER_IMAGE_TAG}} -f tools/docker/Dockerfile .
 
   docker-inspect:
     cmds:

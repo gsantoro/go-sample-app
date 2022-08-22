@@ -1,6 +1,6 @@
 .vscode
 .github
-.dev-tools
+tools
 tmp
 .gitignore
 .golangci.yml
