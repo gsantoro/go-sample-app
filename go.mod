@@ -34,7 +34,7 @@ require (
 	github.com/gin-gonic/gin v1.8.1
 	github.com/mattn/go-colorable v0.1.12 // indirect
 	github.com/mattn/go-isatty v0.0.14 // indirect
-	github.com/prometheus/client_golang v1.13.0
+	github.com/prometheus/client_golang v1.13.0 // indirect
 	github.com/zsais/go-gin-prometheus v0.1.0
 	golang.org/x/sys v0.0.0-20220520151302-bc2c85ada10a // indirect
 )

@@ -9,7 +9,8 @@ vars:
   DOCKER_IMAGE_TAG: latest
 
 tasks:
-  install-prerequisites:
+  install-deps:
+    cmds:
     # - brew install go-task/tap/go-task  // needed to run this command. need to run manually
     # - task: install-linter:
     # - brew install kind
@@ -25,6 +26,25 @@ tasks:
     # [drill](https://github.com/fcsonline/drill) = another load tester
     # [k6](https://k6.io/) = load tester in js
     # - go install github.com/joho/godotenv/cmd/godotenv@latest
+    # - [pre-commit](https://pre-commit.com/) - pre-commit git hooks
+    - echo "all done"
+  
+  # Pre-commit git hooks
+  pre-commit-deps:
+    cmds: 
+      - brew install pre-commit
+      - brew install golangci-lint
+      - go install github.com/fzipp/gocyclo/cmd/gocyclo@latest
+      - go install golang.org/x/tools/cmd/goimports@latest
+      # - cd .. && touch .pre-commit-config.yaml 
+
+  pre-commit-install:
+    cmds: 
+      - pre-commit install
+
+  pre-commit-run:
+    cmds:
+      - pre-commit run --all-files
 
 
   ####
