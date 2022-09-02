@@ -1,6 +1,6 @@
 version: '3'
 
-dotenv: ['.env']
+dotenv: ['../.env']
 
 vars:
   WORKSPACE: "~/workspace/personal"
@@ -45,6 +45,33 @@ tasks:
   pre-commit-run:
     cmds:
       - pre-commit run --all-files
+
+  # go-releaser
+  releaser-install:
+    cmds:
+      - brew install goreleaser
+
+  releaser-init:
+    dir: ../
+    cmds:
+      - goreleaser init
+
+  releaser-run:
+    dir: ../
+    cmds:
+      # - goreleaser release --snapshot --rm-dist
+      - goreleaser release
+
+  releaser-check:
+    dir: ../
+    cmds:
+      - goreleaser check
+
+  releaser-tag:
+    dir: ../
+    cmds:
+      - git tag -a v0.1.0 -m "First release"
+      - git push origin v0.1.0
 
 
   # swagger
