@@ -14,18 +14,18 @@ tasks:
     # - brew install go-task/tap/go-task  // needed to run this command. need to run manually
     # - task: install-linter:
     # - brew install kind
-    # - go install github.com/cosmtrek/air@latest
+    - go install github.com/cosmtrek/air@latest
     # - brew install helm
     # - brew install asciinema
     # # [dive](https://github.com/wagoodman/dive) = inspect docker images
-    # - brew install dive
+    - brew install dive
     # - go install github.com/mattn/goreman@latest
     # [newman]() = run postman from cli
     # - brew install newman
     # [cassowary](https://github.com/rogerwelin/cassowary) = load tester in Golang
     # [drill](https://github.com/fcsonline/drill) = another load tester
     # [k6](https://k6.io/) = load tester in js
-    # - go install github.com/joho/godotenv/cmd/godotenv@latest
+    - go install github.com/joho/godotenv/cmd/godotenv@latest
     # - [pre-commit](https://pre-commit.com/) - pre-commit git hooks
     - echo "all done"
   
@@ -46,6 +46,16 @@ tasks:
     cmds:
       - pre-commit run --all-files
 
+
+  # swagger
+  swag-install:
+    cmds:
+      - go install github.com/swaggo/swag/cmd/swag@latest
+    
+  swag-init:
+    dir: "../"
+    cmds:
+      - swag init -g cmd/hello.go
 
   ####
   # Docker
@@ -116,6 +126,7 @@ tasks:
       - echo "Removing old binary"
       - rm -rf ../build/* || true
       - echo "Building and restarting a new serber instance"
+      - task: swag-init
       - task: lint
       - task: fmt
       - task: build
