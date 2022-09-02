@@ -1,0 +1,45 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "Sample application in Go",
+        "title": "Go Sample App",
+        "contact": {
+            "name": "Giuseppe Santoro"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0"
+    },
+    "host": "localhost:8080",
+    "basePath": "/api/v1",
+    "paths": {
+        "/health": {
+            "get": {
+                "description": "Responds with status=ok.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Health"
+                ],
+                "summary": "Health",
+                "responses": {}
+            }
+        },
+        "/ping": {
+            "get": {
+                "description": "Responds with Pong.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ping"
+                ],
+                "summary": "Ping",
+                "responses": {}
+            }
+        }
+    }
+}

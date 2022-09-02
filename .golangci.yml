@@ -60,6 +60,16 @@ linters-settings:
         # Default: true
         skipRecvDeref: false
 
+  godot:
+    # comments to be checked: `declarations`, `toplevel`, or `all`
+    scope: declarations
+    # list of regexps for excluding particular comment lines from check
+    exclude:
+      # example: exclude comments which contain numbers
+      - '@'
+    # check that each sentence starts with a capital letter
+    capital: false
+
   gomnd:
     # List of function patterns to exclude from analysis.
     # Values always ignored: `time.Date`
