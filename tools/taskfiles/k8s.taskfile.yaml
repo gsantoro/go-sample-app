@@ -1,0 +1,22 @@
+version: '3'
+
+# Prometheus
+# ----------------------------------------------------------------
+# Docs at https://kind.sigs.k8s.io/
+#
+# note: run from ../Taskfile.yaml
+
+tasks:  
+  deps: 
+    cmds:
+      - brew install kind
+
+  cluster:
+    dir: ../
+    cmds:
+      # NOTE: fail if podman has a machien running. maybe out of resources
+      # - kind create cluster --config deploymets/kubernetes/config.yaml --image=kindest/node:{{.KUBERNETES_VERSION}}
+      - kind create cluster
+  cluster-remove:
+    cmds:
+      - kind delete cluster

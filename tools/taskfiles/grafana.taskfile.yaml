@@ -1,0 +1,33 @@
+version: '3'
+
+# Docker
+# ----------------------------------------------------------------
+# Docs at https://github.com/swaggo/swag
+#
+# note: run from ../Taskfile.yaml
+
+vars: 
+  DOCKER_IMAGE_NAME: go-sample-app
+  DOCKER_IMAGE_TAG: latest
+
+tasks:  
+  deps: 
+    cmds:
+      - brew install helm
+
+  install:
+    cmds: 
+      - helm repo add grafana https://grafana.github.io/helm-charts
+      - helm install my-release grafana/grafana
+
+  open:
+    cmds:
+      - open http://localhost:3000
+      - kubectl --namespace default port-forward {{.POD_NAME}} 3000
+    vars:
+      POD_NAME:
+        sh: kubectl get pods --namespace default -l "app.kubernetes.io/name=grafana,app.kubernetes.io/instance=my-release" -o jsonpath="{.items[0].metadata.name}"
+
+  password:
+    cmds:
+      - kubectl get secret --namespace default my-release-grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo

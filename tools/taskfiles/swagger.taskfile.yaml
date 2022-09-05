@@ -1,18 +1,21 @@
 version: '3'
 
+# Swagger
+# ----------------------------------------------------------------
+# Docs at https://github.com/swaggo/swag
+#
 # note: run from ../Taskfile.yaml
 
 tasks:
-  
-  swag-deps:
+  deps:
     cmds:
       - go install github.com/swaggo/swag/cmd/swag@latest
     
-  swag-init:
+  init:
     dir: ../
     cmds:
       - swag init -o api -g cmd/hello.go
 
-  swag-open:
+  open:
     cmds:
       - open http://localhost:8080/api/v1/docs/index.html#/

@@ -1,17 +1,19 @@
 version: '3'
 
+# Goreleaser
+# ----------------------------------------------------------------
+# Docs at https://goreleaser.com/
+#
 # note: run from ../Taskfile.yaml
+
+includes:
+  changie: ./changie.taskfile.yaml
 
 tasks:
   deps: 
     cmds: 
-      - task: releaser-deps
-      - task: changie-deps
-
-
-  releaser-deps:
-    cmds:
       - brew install goreleaser
+      - task: changie:deps
 
   init:
     dir: ../
@@ -38,21 +40,3 @@ tasks:
     dir: ../
     cmds:
       - goreleaser check
-
-  # changie
-  changie-deps:
-    cmds:
-      - brew tap miniscruff/changie https://github.com/miniscruff/changie
-      - brew install changie
-
-  changie-init:
-    dir: ../
-    cmds:
-      - changie init
-
-  changie-minor:
-    dir: ../
-    cmds:
-      - changie new
-      - changie batch minor
-      - changie merge
