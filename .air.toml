@@ -1,13 +1,13 @@
 root = "."
 testdata_dir = "testdata"
-tmp_dir = "tmp"
+tmp_dir = "build"
 
 [build]
   args_bin = []
   # bin = ""
   cmd = "cd tools && task reload"
   delay = 10000
-  exclude_dir = ["build", ".github", ".vscode", "tools", "tmp"]
+  exclude_dir = ["build", ".github", ".vscode", "tools", "dist"]
   exclude_file = [".gitignore", ".dockerignore", ".golangci.yml", "go.mod", "go.sum", "README.md"]
   exclude_regex = ["_test.go"]
   exclude_unchanged = false

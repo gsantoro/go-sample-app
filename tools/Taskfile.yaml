@@ -8,6 +8,10 @@ vars:
   DOCKER_IMAGE_NAME: go-sample-app
   DOCKER_IMAGE_TAG: latest
 
+includes:
+  releaser: taskfiles/releaser.taskfile.yaml
+  swagger: taskfiles/swagger.taskfile.yaml
+
 tasks:
   install-deps:
     cmds:
@@ -45,67 +49,6 @@ tasks:
   pre-commit-run:
     cmds:
       - pre-commit run --all-files
-
-
-  # changie
-  changie-deps:
-    cmds:
-      - brew tap miniscruff/changie https://github.com/miniscruff/changie
-      - brew install changie
-
-  changie-init:
-    dir: ../
-    cmds:
-      - changie init
-
-  changie-minor:
-    dir: ../
-    cmds:
-      - changie new
-      - changie batch minor
-      - changie merge
-
-  # go-releaser
-  releaser-install:
-    cmds:
-      - brew install goreleaser
-
-  releaser-init:
-    dir: ../
-    cmds:
-      - goreleaser init
-
-  releaser-run:
-    dir: ../
-    vars:
-      LATEST_VERSION:
-        sh: changie latest
-    cmds:
-      # - goreleaser release --snapshot --rm-dist
-      - GORELEASER_CURRENT_TAG="$(changie latest)" goreleaser release --release-notes="changes/{{.LATEST_VERSION}}" --skip-validate --rm-dist
-
-  releaser-check:
-    dir: ../
-    cmds:
-      - goreleaser check
-
-  releaser-tag:
-    dir: ../
-    cmds:
-      # - git push --delete origin v0.1.0
-      - git tag -a v0.1.0 -m "First release"
-      - git push origin v0.1.0
-
-
-  # swagger
-  swag-install:
-    cmds:
-      - go install github.com/swaggo/swag/cmd/swag@latest
-    
-  swag-init:
-    dir: "../"
-    cmds:
-      - swag init -g cmd/hello.go
 
   ####
   # Docker
