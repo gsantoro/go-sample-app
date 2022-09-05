@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	_ "github.com/gsantoro/go-sample-app/docs"
+	_ "github.com/gsantoro/go-sample-app/api"
 	log "github.com/gsantoro/go-sample-app/internal/logger"
 	"github.com/gsantoro/go-sample-app/internal/rest"
 

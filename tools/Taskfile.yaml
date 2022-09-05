@@ -5,288 +5,31 @@ dotenv: ['../.env']
 vars:
   WORKSPACE: "~/workspace/personal"
   KUBERNETES_VERSION: v1.24.0
-  DOCKER_IMAGE_NAME: go-sample-app
-  DOCKER_IMAGE_TAG: latest
+
+includes:
+  asciinema: taskfiles/asciinema.taskfile.yaml
+  changie: taskfiles/changie.taskfile.yaml
+  docker: taskfiles/docker.taskfile.yaml
+  swagger: taskfiles/swagger.taskfile.yaml
+  go: taskfiles/go.taskfile.yaml
+  grafana: taskfiles/grafana.taskfile.yaml
+  k8s: taskfiles/k8s.taskfile.yaml
+  pre-commit: taskfiles/pre-commit.taskfile.yaml
+  prometheus: taskfiles/prometheus.taskfile.yaml
+  releaser: taskfiles/releaser.taskfile.yaml
+  test: taskfiles/test.taskfile.yaml
+  
 
 tasks:
-  install-deps:
+  deps:
     cmds:
-    # - brew install go-task/tap/go-task  // needed to run this command. need to run manually
-    # - task: install-linter:
-    # - brew install kind
-    - go install github.com/cosmtrek/air@latest
-    # - brew install helm
-    # - brew install asciinema
-    # # [dive](https://github.com/wagoodman/dive) = inspect docker images
-    - brew install dive
-    # - go install github.com/mattn/goreman@latest
-    # [newman]() = run postman from cli
-    # - brew install newman
-    # [cassowary](https://github.com/rogerwelin/cassowary) = load tester in Golang
-    # [drill](https://github.com/fcsonline/drill) = another load tester
-    # [k6](https://k6.io/) = load tester in js
-    - go install github.com/joho/godotenv/cmd/godotenv@latest
-    # - [pre-commit](https://pre-commit.com/) - pre-commit git hooks
-    - echo "all done"
-  
-  # Pre-commit git hooks
-  pre-commit-deps:
-    cmds: 
-      - brew install pre-commit
-      - brew install golangci-lint
-      - go install github.com/fzipp/gocyclo/cmd/gocyclo@latest
-      - go install golang.org/x/tools/cmd/goimports@latest
-      # - cd .. && touch .pre-commit-config.yaml 
-
-  pre-commit-install:
-    cmds: 
-      - pre-commit install
-
-  pre-commit-run:
-    cmds:
-      - pre-commit run --all-files
-
-
-  # changie
-  changie-deps:
-    cmds:
-      - brew tap miniscruff/changie https://github.com/miniscruff/changie
-      - brew install changie
-
-  changie-init:
-    dir: ../
-    cmds:
-      - changie init
-
-  changie-minor:
-    dir: ../
-    cmds:
-      - changie new
-      - changie batch minor
-      - changie merge
-
-  # go-releaser
-  releaser-install:
-    cmds:
-      - brew install goreleaser
-
-  releaser-init:
-    dir: ../
-    cmds:
-      - goreleaser init
-
-  releaser-run:
-    dir: ../
-    vars:
-      LATEST_VERSION:
-        sh: changie latest
-    cmds:
-      # - goreleaser release --snapshot --rm-dist
-      - GORELEASER_CURRENT_TAG="$(changie latest)" goreleaser release --release-notes="changes/{{.LATEST_VERSION}}" --skip-validate --rm-dist
-
-  releaser-check:
-    dir: ../
-    cmds:
-      - goreleaser check
-
-  releaser-tag:
-    dir: ../
-    cmds:
-      # - git push --delete origin v0.1.0
-      - git tag -a v0.1.0 -m "First release"
-      - git push origin v0.1.0
-
-
-  # swagger
-  swag-install:
-    cmds:
-      - go install github.com/swaggo/swag/cmd/swag@latest
-    
-  swag-init:
-    dir: "../"
-    cmds:
-      - swag init -g cmd/hello.go
-
-  ####
-  # Docker
-  ####
-  docker-build:
-    deps: [build]
-    cmds:
-      - cd .. && docker build -t {{.DOCKER_IMAGE_NAME}}:{{.DOCKER_IMAGE_TAG}} -f deployments/docker/Dockerfile .
-
-  docker-inspect:
-    cmds:
-      - dive {{.DOCKER_IMAGE_NAME}}:{{.DOCKER_IMAGE_TAG}}
-
-  docker-scan:
-    cmds: 
-      - docker scan {{.DOCKER_IMAGE_NAME}}:{{.DOCKER_IMAGE_TAG}}
-
-  docker-run:
-    cmds: 
-      - docker run -it {{.DOCKER_IMAGE_NAME}}:{{.DOCKER_IMAGE_TAG}}
-
-  ####
-  # Asciinema
-  ####
-  install-asciinema-recorder:
-    cmds: 
-      # - cd {{.WORKSPACE}} && gh repo clone zechris/asciinema-rec_script
-      - echo 'export PATH=$PATH:{{.WORKSPACE}}/asciinema-rec_script/bin/' >> ~/.profiles.d/asciinema.sh # add script to path
-      # - source ~/.profiles.d/asciinema.sh  # run in your terminal
-
-  install-asciinema-gif:
-    cmds:
-      # - curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh # install Rush
-      # - cd {{.WORKSPACE}} && gh repo clone asciinema/agg asciinema-agg
-      # - source ~/.profiles.d/rust.sh && cd {{.WORKSPACE}}/asciinema-agg && cargo build -r 
-      - echo 'export PATH=$PATH:{{.WORKSPACE}}/asciinema-agg/target/release' >> ~/.profiles.d/asciinema.sh # add script to path
-
-  # how to use:
-  #   task script-to-gif -- sample_script.sh
-  script-to-gif:
-    cmds:
-      - asciinema-rec_script {{.CLI_ARGS}}
-      - agg --speed 0.5 --theme solarized-dark {{.CLI_ARGS}}.cast {{.CLI_ARGS}}.gif
-      - mv {{.CLI_ARGS}}.cast {{.CLI_ARGS}}.gif ascii
-
-
-  ####
-  # golang
-  ####
-  build:
-    cmds:
-      # GOOS=linux GOARCH=amd64 
-      - go build -v -tags=go_json -o ../build/hello ../cmd/hello.go
-
-  run:  
-    cmds: 
-      - godotenv -f ../.env ../build/hello
-
-  live:
-    cmds: 
-      - cd .. && air -c .air.toml
-
-  reload:
-    cmds: 
-      - echo "Killing server process."
-      # - pkill -f "../build/hello" || true
-      - pkill -f "/Users/gsantoro/workspace/personal/go-sample-app/build/hello" || true
-      - echo "Removing old binary"
-      - rm -rf ../build/* || true
-      - echo "Building and restarting a new serber instance"
-      - task: swag-init
-      - task: lint
-      - task: fmt
-      - task: build
-
-  install-linter:
-    cmds: 
-    # version: 1.48.0_1
-      - brew install golangci-lint
-      - brew upgrade golangci-lint
-
-  lint:
-    cmds:
-      - golangci-lint run --fast ../...
-  
-  fmt:
-    cmds:
-      - gofmt -l -w ..
-
-  k8s-cluster:
-    cmds:
-      # NOTE: fail if podman has a machien running. maybe out of resources
-      # - cd .. && kind create cluster --config deploymets/kubernetes/config.yaml --image=kindest/node:{{.KUBERNETES_VERSION}}
-      - kind create cluster
-  k8s-cluster-remove:
-    cmds:
-      - kind delete cluster
-
-  # run processes in .Procfile
-  start:
-    cmds:
-      - goreman start
-
-  test:
-    cmds:
-      - newman run test/go-sample-app.postman_collection.json {{.ENV_VARS}} -n 100 --delay-request 100
-    vars: 
-      ENV_VARS:
-        sh: cat .env | sed -E 's/(.*)=(.*)/--env-var "\1=\2"/' | tr '\n' ' '
-
-  ####
-  # Grafana
-  ####
-  grafana-install:
-    cmds: 
-      - helm repo add grafana https://grafana.github.io/helm-charts
-      - helm install my-release grafana/grafana
-
-  grafana-open:
-    cmds:
-      - open http://localhost:3000
-      - kubectl --namespace default port-forward {{.POD_NAME}} 3000
-    vars:
-      POD_NAME:
-        sh: kubectl get pods --namespace default -l "app.kubernetes.io/name=grafana,app.kubernetes.io/instance=my-release" -o jsonpath="{.items[0].metadata.name}"
-
-  grafana-password:
-    cmds:
-      - kubectl get secret --namespace default my-release-grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
-
-  ####
-  # Prometheus
-  ####
-  prometheus-install:
-    cmds:
-      - helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
-      - cd .. && helm install -f deploymets/kubernetes/prometheus/values.yaml prometheus-community/prometheus --generate-name
-
-  prometheus-values:
-    cmds: 
-      - helm show values prometheus-community/prometheus
-
-  prometheus-remove:
-    cmds:
-      - helm uninstall prometheus-community/prometheus
-  
-  prometheus-open:
-    cmds: 
-      # - open http://localhost:9090
-      - kubectl --namespace default port-forward {{.POD_NAME}} 9090
-    vars:
-      POD_NAME:
-        sh: kubectl get pods --namespace default -l "app=prometheus,component=server" -o jsonpath="{.items[0].metadata.name}"
-
-  prometheus-alert-manager:
-    cmds: 
-      - open http://localhost:9093
-      - kubectl --namespace default port-forward {{.POD_NAME}} 9093
-    vars:
-      POD_NAME: 
-        sh: kubectl get pods --namespace default -l "app=prometheus,component=alertmanager" -o jsonpath="{.items[0].metadata.name}"
-  
-  prometheus-push-gateway-open:
-    cmds: 
-      - kubectl --namespace default port-forward {{.POD_NAME}} 9091
-    vars:
-      POD_NAME: 
-        sh: kubectl get pods --namespace default -l "app=prometheus,component=pushgateway" -o jsonpath="{.items[0].metadata.name}"
-
-  prometheus-push-metrics:
-    cmds: 
-      - sleep 5
-      - |
-        for (( i=1; ;i++))
-        do
-          curl -s -o tmp/metrics.yaml http://localhost:8080/metrics
-          curl -s --data-binary @tmp/metrics.yaml http://localhost:9091/metrics/job/hello_api
-          echo $i
-          sleep 10
-        done
-
-  prometheus-push-metrics-remove:
-    cmds:
-      - curl -X DELETE http://localhost:9091/metrics/job/hello_api
+      - brew install go-task/tap/go-task
+      - task: asciinema:deps
+      - task: changie:deps
+      - task: docker:deps
+      - task: go:deps
+      - task: grafana:deps
+      - task: k8s:deps
+      - task: pre-commit:deps
+      - task: prometheus:deps
+      - task: releaser:deps

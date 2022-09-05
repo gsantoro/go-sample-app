@@ -1,0 +1,91 @@
+version: '3'
+
+# golang
+# ----------------------------------------------------------------
+#
+# note: run from ../Taskfile.yaml
+
+includes:
+  swagger: ./swagger.taskfile.yaml
+
+tasks:  
+  deps: 
+    cmds:
+      - task: run-deps
+      - task: lint-deps
+      - task: start-deps
+      - task: air-deps
+
+  kill:
+    cmds:
+      - echo "Killing server process."
+      # - pkill -f "../build/hello" || true
+      - pkill -f "/Users/gsantoro/workspace/personal/go-sample-app/build/hello" || true
+
+  build:
+    dir: ../
+    cmds:
+      # GOOS=linux GOARCH=amd64 
+      - go build -v -tags=go_json -o build/hello cmd/hello.go
+
+  build-clean:
+    cmds:
+      - echo "Removing old binary"
+      - rm -rf ../build/* || true
+
+  run:  
+    dir: ../
+    cmds: 
+      - godotenv -f .env build/hello
+
+  run-deps:
+    cmds: 
+      - go install github.com/joho/godotenv/cmd/godotenv@latest
+
+  lint-deps:
+    cmds: 
+    # version: 1.48.0_1
+      - brew install golangci-lint
+      - brew upgrade golangci-lint
+
+  lint:
+    cmds:
+      - golangci-lint run --fast ../...
+  
+  fmt:
+    cmds:
+      - gofmt -l -w ..
+
+
+  # run processes in .Procfile
+  start:
+    cmds:
+      - goreman start
+  
+  start-deps:
+    cmds:
+      - go install github.com/mattn/goreman@latest
+
+
+  air-deps:
+    cmds:
+      - go install github.com/cosmtrek/air@latest
+
+  reload:
+    cmds: 
+      - task: kill
+      - task: build-clean
+      - echo "Building and restarting a new server instance"
+      - task: swagger:init
+      - task: lint
+      - task: fmt
+      - task: build
+  
+  open:
+    cmds:
+      - open http://localhost:8080/api/v1/health
+
+  air:
+    dir: ../
+    cmds: 
+      - air -c .air.toml

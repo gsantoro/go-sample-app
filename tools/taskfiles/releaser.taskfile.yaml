@@ -1,0 +1,42 @@
+version: '3'
+
+# Goreleaser
+# ----------------------------------------------------------------
+# Docs at https://goreleaser.com/
+#
+# note: run from ../Taskfile.yaml
+
+includes:
+  changie: ./changie.taskfile.yaml
+
+tasks:
+  deps: 
+    cmds: 
+      - brew install goreleaser
+      - task: changie:deps
+
+  init:
+    dir: ../
+    cmds:
+      - goreleaser init
+
+  # note: create git tag based on changes
+  run:
+    dir: ../
+    vars:
+      LATEST_VERSION:
+        sh: changie latest
+    cmds:
+      # - goreleaser release --snapshot --rm-dist
+      - GORELEASER_CURRENT_TAG="$(changie latest)" goreleaser release --release-notes=".changes/{{.LATEST_VERSION}}.md" --skip-validate --rm-dist
+      - task: releaser-clean
+
+  clean:
+    dir: ../
+    cmds:
+      - rm -rf dist
+
+  check:
+    dir: ../
+    cmds:
+      - goreleaser check

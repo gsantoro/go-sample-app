@@ -1,0 +1,38 @@
+version: '3'
+
+# Docker
+# ----------------------------------------------------------------
+#
+# note: run from ../Taskfile.yaml
+
+vars: 
+  DOCKER_IMAGE_NAME: go-sample-app
+  DOCKER_IMAGE_TAG: latest
+
+tasks:  
+  deps: 
+    cmds:
+      - task: inspect-deps
+
+  build:
+    dir: ../
+    cmds:
+      - docker build -t {{.DOCKER_IMAGE_NAME}}:{{.DOCKER_IMAGE_TAG}} -f deployments/docker/Dockerfile .
+
+  inspect:
+    cmds:
+      - dive {{.DOCKER_IMAGE_NAME}}:{{.DOCKER_IMAGE_TAG}}
+
+  inspect-deps:
+    cmds:
+      # # [dive](https://github.com/wagoodman/dive) = inspect docker images
+      - brew install dive
+
+
+  scan:
+    cmds: 
+      - docker scan {{.DOCKER_IMAGE_NAME}}:{{.DOCKER_IMAGE_TAG}}
+
+  run:
+    cmds: 
+      - docker run -it {{.DOCKER_IMAGE_NAME}}:{{.DOCKER_IMAGE_TAG}}

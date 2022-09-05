@@ -1,0 +1,25 @@
+version: '3'
+
+# Changie
+# ----------------------------------------------------------------
+# Docs at https://changie.dev/
+#
+# note: run from ../Taskfile.yaml
+
+tasks:
+  deps:
+    cmds:
+      - brew tap miniscruff/changie https://github.com/miniscruff/changie
+      - brew install changie
+
+  init:
+    dir: ../
+    cmds:
+      - changie init
+
+  minor:
+    dir: ../
+    cmds:
+      - changie new
+      - changie batch minor
+      - changie merge

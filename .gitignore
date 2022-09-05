@@ -57,3 +57,4 @@ tmp
 tools/ascii
 dist/
 .env
+secrets
