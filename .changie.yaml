@@ -5,7 +5,10 @@ changelogPath: CHANGELOG.md
 versionExt: md
 versionFormat: '## {{.Version}} - {{.Time.Format "2006-01-02"}}'
 kindFormat: '### {{.Kind}}'
-changeFormat: '* {{.Body}}'
+# changeFormat: '* {{.Body}}'
+changeFormat: >-
+  * [#{{.Custom.Issue}}](https://github.com/gsantoro/go-sample-app/issues/{{.Custom.Issue}})
+  {{.Body}} by [{{.Custom.Author}}](https://github.com/{{.Custom.Author}})
 kinds:
 - label: Added
 - label: Changed
@@ -17,3 +20,9 @@ newlines:
   afterChangelogHeader: 1
   beforeChangelogVersion: 1
   endOfVersion: 1
+custom:
+- key: Issue
+  type: int
+  minInt: 1
+- key: Author
+  type: string
