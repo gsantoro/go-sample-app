@@ -7,8 +7,15 @@ versionFormat: '## {{.Version}} - {{.Time.Format "2006-01-02"}}'
 kindFormat: '### {{.Kind}}'
 # changeFormat: '* {{.Body}}'
 changeFormat: >-
-  * [#{{.Custom.Issue}}](https://github.com/gsantoro/go-sample-app/issues/{{.Custom.Issue}})
-  {{.Body}} by [{{.Custom.Author}}](https://github.com/{{.Custom.Author}})
+  * [#{{.Custom.Issue}}](https://github.com/gsantoro/go-sample-app/issues/{{.Custom.Issue}}) {{.Body}}
+headerFormat: |
+  Updates:
+  {{- range $kind := (kinds .Changes | uniq)}}
+    {{- $changeCount := (kinds $.Changes | count $kind)}}
+    {{- if gt $changeCount 0 }}
+    * {{$kind}}: {{$changeCount}}
+    {{- end}}
+  {{- end}}
 kinds:
 - label: Added
 - label: Changed
@@ -24,5 +31,3 @@ custom:
 - key: Issue
   type: int
   minInt: 1
-- key: Author
-  type: string
