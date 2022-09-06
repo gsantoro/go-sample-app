@@ -17,9 +17,13 @@ tasks:
     cmds:
       - changie init
 
-  minor:
+  add-change:
     dir: ../
     cmds:
       - changie new
+
+  new-minor-release:
+    dir: ../
+    cmds:
       - changie batch minor
       - changie merge
