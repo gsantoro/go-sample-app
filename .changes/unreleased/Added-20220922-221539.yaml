@@ -1,0 +1,5 @@
+kind: Added
+body: Check for vulnerabilities with https://go.dev/blog/vuln
+time: 2022-09-22T22:15:39.217763+01:00
+custom:
+  Issue: "7"
