@@ -9,12 +9,17 @@ vars:
   DOCKER_IMAGE_NAME: go-sample-app
   DOCKER_IMAGE_TAG: latest
 
+includes:
+  go: ./go.taskfile.yaml
+
 tasks:  
   deps: 
     cmds:
       - task: inspect-deps
 
   build:
+    deps:
+      - task: go:build
     dir: ../
     cmds:
       - docker build -t {{.DOCKER_IMAGE_NAME}}:{{.DOCKER_IMAGE_TAG}} -f deployments/docker/Dockerfile .
