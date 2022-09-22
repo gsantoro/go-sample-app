@@ -13,6 +13,7 @@ includes:
   swagger: taskfiles/swagger.taskfile.yaml
   go: taskfiles/go.taskfile.yaml
   grafana: taskfiles/grafana.taskfile.yaml
+  gvm: taskfiles/gvm.taskfile.yaml
   k8s: taskfiles/k8s.taskfile.yaml
   pre-commit: taskfiles/pre-commit.taskfile.yaml
   prometheus: taskfiles/prometheus.taskfile.yaml
@@ -29,6 +30,7 @@ tasks:
       - task: docker:deps
       - task: go:deps
       - task: grafana:deps
+      - task: gvm:deps
       - task: k8s:deps
       - task: pre-commit:deps
       - task: prometheus:deps
