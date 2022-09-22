@@ -7,3 +7,4 @@ tmp
 cmd
 go.mod
 go.sum
+.git
