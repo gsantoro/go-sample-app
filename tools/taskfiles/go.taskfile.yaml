@@ -15,6 +15,7 @@ tasks:
       - task: lint-deps
       - task: start-deps
       - task: air-deps
+      - task: vuln-deps
 
   kill:
     cmds:
@@ -56,6 +57,13 @@ tasks:
     cmds:
       - gofmt -l -w ..
 
+  # udpate dependencies
+  update:
+    dir: ../
+    cmds:
+      - go get -u ./...
+      - go mod tidy
+
 
   # run processes in .Procfile
   start:
@@ -89,3 +97,15 @@ tasks:
     dir: ../
     cmds: 
       - air -c .air.toml
+
+
+  # vulnerabilities scan
+  vuln-deps:
+    cmds:
+      # https://go.dev/blog/vuln
+      - go install golang.org/x/vuln/cmd/govulncheck@latest
+
+  vuln:
+    dir: ../
+    cmds:
+      - govulncheck ./...
