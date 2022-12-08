@@ -8,6 +8,10 @@ version: '3'
 includes:
   swagger: ./swagger.taskfile.yaml
 
+vars:
+  GOOS: "linux"
+  GOARCH: amd64
+
 tasks:  
   deps: 
     cmds:
@@ -24,10 +28,12 @@ tasks:
       - pkill -f "/Users/gsantoro/workspace/personal/go-sample-app/build/hello" || true
 
   build:
-    dir: ../
+    dir: ../../
     cmds:
-      # GOOS=linux GOARCH=amd64 
-      - go build -v -tags=go_json -o build/hello cmd/hello.go
+      - GOOS={{.GOOS}} GOARCH={{.GOARCH}} go build -v -tags=go_json -o build/hello cmd/hello.go
+    vars:
+      GOOS: '{{default "linux" .GOOS}}'
+      GOARCH: '{{default "amd64" .GOARCH}}'
 
   build-clean:
     cmds:
@@ -35,7 +41,7 @@ tasks:
       - rm -rf ../build/* || true
 
   run:  
-    dir: ../
+    dir: ../../
     cmds: 
       - godotenv -f .env build/hello
 
@@ -59,7 +65,7 @@ tasks:
 
   # udpate dependencies
   update:
-    dir: ../
+    dir: ../../
     cmds:
       - go get -u ./...
       - go mod tidy
@@ -94,7 +100,7 @@ tasks:
       - open http://localhost:8080/api/v1/health
 
   air:
-    dir: ../
+    dir: ../../
     cmds: 
       - air -c .air.toml
 
@@ -106,6 +112,6 @@ tasks:
       - go install golang.org/x/vuln/cmd/govulncheck@latest
 
   vuln:
-    dir: ../
+    dir: ../../
     cmds:
       - govulncheck ./...
