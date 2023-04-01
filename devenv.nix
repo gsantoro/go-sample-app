@@ -16,6 +16,9 @@
     pkgs.go-swag
     pkgs.pre-commit
     pkgs.gocyclo
+    pkgs.dive
+    pkgs.docker-slim
+    pkgs.trivy
   ];
 
   # https://devenv.sh/scripts/

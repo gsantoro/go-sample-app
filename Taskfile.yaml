@@ -13,7 +13,7 @@ vars:
 includes:
   asciinema: tools/taskfiles/asciinema.taskfile.yaml
   changie: tools/taskfiles/changie.taskfile.yaml
-  # docker: tools/taskfiles/docker.taskfile.yaml
+  docker: tools/taskfiles/docker.taskfile.yaml
   swagger: tools/taskfiles/swagger.taskfile.yaml
   go: tools/taskfiles/go.taskfile.yaml
   grafana: tools/taskfiles/grafana.taskfile.yaml

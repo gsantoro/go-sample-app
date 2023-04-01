@@ -5,48 +5,114 @@ version: '3'
 #
 # note: run from ../Taskfile.yaml
 
-env:
-  GOOS: darwin
-
-vars: 
-  PWD: ~/workspace/personal/go-sample-app
-  HOST: ws.gs
-
 includes:
   go: 
     taskfile: ./go.taskfile.yaml
+    dir: "../.."
     internal: true
+
+
+tasks:
+  env:
+    cmds:
+      - cat {{.ENV_FILE}}
+      - source {{.ENV_FILE}} && zsh
     vars:
-      GOOS: darwin
-      GOARCH: arm64
+      ENV_FILE: .env.docker
 
-  # todo: fix me. Error: /Users/gsantoro/automation/tasks/docker/Taskfile.yaml: no such file or directory
-  # docker: 
-  #   taskfile: ~/automation/tasks/docker/Taskfile.yaml # NOTE: depends on other taskfiles
-  #   dir: ../../
-  #   internal: true
-  #   vars:
-  #     IMAGE: go-sample-app
-  #     TAG: latest
-  #     DOCKER_FILE: "deployments/docker/Dockerfile"
-    
+  build:
+    cmds:
+      - docker build -t {{.DOCKER_IMAGE}}:{{.DOCKER_TAG}} -f {{.DOCKER_FILE}} .
+    vars:
+      DOCKER_IMAGE:
+        sh: echo $DOCKER_IMAGE
+      DOCKER_TAG:
+        sh: echo $DOCKER_TAG
+      DOCKER_FILE:
+        sh: echo $DOCKER_FILE
 
-# tasks:  
-#   up:
-#     dir: '{{.WORKING_DIR}}'
-#     env:
-#       GOOS: test
-#     cmds:
-#       - task: go:build
-#       - task: docker:build
-#       - task: docker:run
-#         vars: 
-#           PARAMS: "-p $PORT:$PORT --env-file .env"
+  build-test:
+    cmds:
+      - docker build -t {{.DOCKER_IMAGE}}:{{.DOCKER_TAG}} -f {{.DOCKER_FILE}} .
+    vars:
+      DOCKER_IMAGE:
+        sh: echo $DOCKER_IMAGE
+      DOCKER_TAG:
+        sh: echo $DOCKER_TAG
+      DOCKER_FILE: deployments/docker/Test.Dockerfile
 
-#   test:
-#     cmds:
-#       - curl http://{{.HOST}}:8080/api/v1/ping
+  run:
+    cmds: 
+      - docker run -it {{.PARAMS}} {{.DOCKER_IMAGE}}:{{.DOCKER_TAG}} 
+    vars:
+      PARAMS: "-p $PORT:$PORT --env-file .env.docker"
+      DOCKER_IMAGE:
+        sh: echo $DOCKER_IMAGE
+      DOCKER_TAG:
+        sh: echo $DOCKER_TAG
 
-#   inspect:
-#     cmds:
-#       - task: docker:inspect
+  shell:
+    cmds:
+      - docker exec -it {{.DOCKER_IMAGE}}:{{.DOCKER_TAG}} /bin/bash
+    vars:
+      DOCKER_IMAGE:
+        sh: echo $DOCKER_IMAGE
+      DOCKER_TAG:
+        sh: echo $DOCKER_TAG
+
+  up:
+    env:
+      GOOS: test
+    cmds:
+      - task: go:build
+      - task: build
+      - task: run
+
+  ping:
+    cmds:
+      - curl http://{{.HOSTNAME}}:{{.PORT}}/api/v1/ping
+    vars:
+      HOSTNAME:
+        sh: echo $HOSTNAME
+      PORT:
+        sh: echo $PORT
+
+  ## ttl temp registry
+  ttl-sh-dive:
+    cmds:
+      - task: login
+      - dive ttl.sh/{{.DOCKER_IMAGE}}:{{.DOCKER_TMP_REPO_TTL}}
+
+  ttl-sh-push:
+    cmds:
+      - docker build -t ttl.sh/{{.DOCKER_IMAGE}}:{{.DOCKER_TMP_REPO_TTL}} -f {{.DOCKER_FILE}} .
+      - docker push ttl.sh/{{.DOCKER_IMAGE}}:{{.DOCKER_TMP_REPO_TTL}}
+
+  # tools
+  login:
+    cmds:
+      - docker login
+
+  dive:
+    cmds:
+      - task: login
+      - dive {{.DOCKER_IMAGE}}:{{.DOCKER_TAG}}
+
+  check:
+    cmds:
+      - task: scan
+      - task: trivy-scan
+
+  scan:
+    cmds: 
+      - docker scout cves {{.DOCKER_IMAGE}}:{{.DOCKER_TAG}}
+
+  trivy-scan:
+    cmds:
+      - trivy image {{.DOCKER_IMAGE}}:{{.DOCKER_TAG}}
+
+  slim:
+    cmds:
+      # NOTE: if docker context point to remote host, this command doesn't work
+      # it needs to be run from remote host. Image will be available locally after build
+      - slim build --env PORT={{.PORT}} --expose 8080 {{.DOCKER_IMAGE}}:{{.DOCKER_TAG}}
