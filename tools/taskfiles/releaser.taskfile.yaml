@@ -16,13 +16,11 @@ tasks:
       - task: changie:deps
 
   init:
-    dir: ../
     cmds:
       - goreleaser init
 
   # note: create git tag based on changes
   run:
-    dir: ../
     vars:
       LATEST_VERSION:
         sh: changie latest
@@ -32,11 +30,9 @@ tasks:
       - task: releaser-clean
 
   clean:
-    dir: ../
     cmds:
       - rm -rf dist
 
   check:
-    dir: ../
     cmds:
       - goreleaser check

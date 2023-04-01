@@ -10,12 +10,10 @@ vars:
 ### IMPORTANT NOTE: only import via inline definition. 
 # do NOT use the following definition otherwise you won't be able to overwrite global variables
 #
-# docker:
-#    taskfile: tools/taskfiles/docker.taskfile.yaml
 includes:
   asciinema: tools/taskfiles/asciinema.taskfile.yaml
   changie: tools/taskfiles/changie.taskfile.yaml
-  docker: tools/taskfiles/docker.taskfile.yaml
+  # docker: tools/taskfiles/docker.taskfile.yaml
   swagger: tools/taskfiles/swagger.taskfile.yaml
   go: tools/taskfiles/go.taskfile.yaml
   grafana: tools/taskfiles/grafana.taskfile.yaml
@@ -25,19 +23,22 @@ includes:
   prometheus: tools/taskfiles/prometheus.taskfile.yaml
   releaser: tools/taskfiles/releaser.taskfile.yaml
   test: tools/taskfiles/test.taskfile.yaml
+  devenv: tools/taskfiles/devenv.taskfile.yaml
+  env: tools/taskfiles/env.taskfile.yaml
   
 
 tasks:
   deps:
     cmds:
       - brew install go-task/tap/go-task
-      - task: asciinema:deps
-      - task: changie:deps
-      - task: docker:deps
-      - task: go:deps
-      - task: grafana:deps
+      - task: devenv:deps
       - task: gvm:deps
-      - task: k8s:deps
-      - task: pre-commit:deps
-      - task: prometheus:deps
-      - task: releaser:deps
+      # - task: asciinema:deps
+      # - task: docker:deps
+      # - task: grafana:deps
+      # - task: pre-commit:deps
+      # - task: prometheus:deps
+      # - task: releaser:deps
+
+  default:
+    - task: env

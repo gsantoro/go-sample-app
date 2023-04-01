@@ -9,23 +9,5 @@ info:
     url: http://www.apache.org/licenses/LICENSE-2.0.html
   title: Go Sample App
   version: "1.0"
-paths:
-  /health:
-    get:
-      description: Responds with status=ok.
-      produces:
-      - application/json
-      responses: {}
-      summary: Health
-      tags:
-      - Health
-  /ping:
-    get:
-      description: Responds with Pong.
-      produces:
-      - application/json
-      responses: {}
-      summary: Ping
-      tags:
-      - ping
+paths: {}
 swagger: "2.0"

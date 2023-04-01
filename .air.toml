@@ -5,7 +5,7 @@ tmp_dir = "build"
 [build]
   args_bin = []
   # bin = ""
-  cmd = "cd tools && task go:reload"
+  cmd = "cd tools && task go:rebuild"
   delay = 10000
   exclude_dir = ["build", ".github", ".vscode", "tools", "dist"]
   exclude_file = [".gitignore", ".dockerignore", ".golangci.yml", "go.mod", "go.sum", "README.md"]

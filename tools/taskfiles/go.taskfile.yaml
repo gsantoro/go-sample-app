@@ -13,27 +13,24 @@ vars:
   GOARCH: amd64
 
 tasks:  
-  deps: 
-    cmds:
-      - task: run-deps
-      - task: lint-deps
-      - task: start-deps
-      - task: air-deps
-      - task: vuln-deps
-
   kill:
     cmds:
       - echo "Killing server process."
-      # - pkill -f "../build/hello" || true
-      - pkill -f "/Users/gsantoro/workspace/personal/go-sample-app/build/hello" || true
+      - pkill {{.COMMAND}} || true
+    vars:
+      COMMAND:
+        sh: echo $COMMAND
 
   build:
-    dir: ../../
     cmds:
-      - GOOS={{.GOOS}} GOARCH={{.GOARCH}} go build -v -tags=go_json -o build/hello cmd/hello.go
+      - GOOS={{.CMD_GOOS}} GOARCH={{.CMD_GOARCH}} go build -v -tags=go_json -o build/{{.COMMAND}} cmd/{{.COMMAND}}.go
     vars:
-      GOOS: '{{default "linux" .GOOS}}'
-      GOARCH: '{{default "amd64" .GOARCH}}'
+      CMD_GOOS:
+        sh: echo $CMD_GOOS
+      CMD_GOARCH: 
+        sh: echo $CMD_GOARCH
+      COMMAND:
+        sh: echo $COMMAND
 
   build-clean:
     cmds:
@@ -41,19 +38,11 @@ tasks:
       - rm -rf ../build/* || true
 
   run:  
-    dir: ../../
     cmds: 
-      - godotenv -f .env build/hello
-
-  run-deps:
-    cmds: 
-      - go install github.com/joho/godotenv/cmd/godotenv@latest
-
-  lint-deps:
-    cmds: 
-    # version: 1.48.0_1
-      - brew install golangci-lint
-      - brew upgrade golangci-lint
+      - ./build/{{.COMMAND}}
+    vars:
+      COMMAND:
+        sh: echo $COMMAND
 
   lint:
     cmds:
@@ -65,53 +54,35 @@ tasks:
 
   # udpate dependencies
   update:
-    dir: ../../
     cmds:
       - go get -u ./...
       - go mod tidy
 
-
-  # run processes in .Procfile
-  start:
-    cmds:
-      - goreman start
-  
-  start-deps:
-    cmds:
-      - go install github.com/mattn/goreman@latest
-
-
-  air-deps:
-    cmds:
-      - go install github.com/cosmtrek/air@latest
-
-  reload:
+  # NOTE: kill and rebuild
+  rebuild:
     cmds: 
       - task: kill
       - task: build-clean
       - echo "Building and restarting a new server instance"
-      - task: swagger:init
-      - task: lint
+      # - task: swagger:init # todo: fix error
+      # - task: lint # todo: fix error
       - task: fmt
       - task: build
-  
-  open:
+      - task: health
+
+  health:
     cmds:
-      - open http://localhost:8080/api/v1/health
+      - open http://{{.HOSTNAME}}:{{.PORT}}/api/v1/health
+    vars:
+      HOSTNAME:
+        sh: echo $HOSTNAME
+      PORT: 
+        sh: echo $PORT
 
   air:
-    dir: ../../
     cmds: 
       - air -c .air.toml
 
-
-  # vulnerabilities scan
-  vuln-deps:
-    cmds:
-      # https://go.dev/blog/vuln
-      - go install golang.org/x/vuln/cmd/govulncheck@latest
-
   vuln:
-    dir: ../../
     cmds:
       - govulncheck ./...

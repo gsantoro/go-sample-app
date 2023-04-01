@@ -5,18 +5,25 @@ version: '3'
 #
 # note: run from ../Taskfile.yaml
 
-vars: 
-  VERSION: 1.19.1
-
 tasks:  
+  deps:
+    cmds:
+      - bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer)
+      
   install:
     cmds: 
-      - gvm install {{.VERSION}}
+      - gvm install {{.CMD_GOVERSION}}
+    vars:
+      VERSION:
+        sh: echo $CMD_GOVERSION
   
   # note: NOT WORKING
   switch:
     cmds:
-      - gvm use {{.VERSION}}
+      - gvm use {{.CMD_GOVERSION}}
+    vars:
+      VERSION:
+        sh: echo $CMD_GOVERSION
 
   current:
     cmds:

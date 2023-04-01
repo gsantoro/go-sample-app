@@ -7,23 +7,15 @@ version: '3'
 # note: run from ../Taskfile.yaml
 
 tasks:
-  deps:
-    cmds:
-      - brew tap miniscruff/changie https://github.com/miniscruff/changie
-      - brew install changie
-
   init:
-    dir: ../
     cmds:
       - changie init
 
   add-change:
-    dir: ../
     cmds:
       - changie new
 
   new-minor-release:
-    dir: ../
     cmds:
       - changie batch minor
       - changie merge

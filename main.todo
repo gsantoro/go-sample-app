@@ -1,0 +1,13 @@
+Todo:
+    [ ] feature/devenv
+        [ ] document how to use env.taskfile.yaml => run from `t` or `t default` or `t env`
+        [ ] create a new release with devenv
+            [ ] document release: 
+                [ ] devenv for dependencies
+                [ ] taskfile for devenv + env
+                [ ] simplified go.taskfile.yaml: no need for goreman, no need for deps (devenv)
+                [ ] state of tasks (eg. command name) is in .env file
+                [ ] updated go dependencies
+        [ ] fix docker.taskfile.yaml => get taskfile from automation git repo
+        [ ] test running on docker
+        [ ] fix swagger and lint tasks in go

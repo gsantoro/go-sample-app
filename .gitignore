@@ -58,3 +58,8 @@ tools/ascii
 dist/
 .env
 secrets
+# Devenv
+.devenv*
+devenv.local.nix
+
+.direnv

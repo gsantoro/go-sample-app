@@ -12,7 +12,6 @@ tasks:
       - brew install helm
 
   install:
-    dir: ../
     cmds:
       - helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
       - helm install -f deployments/kubernetes/prometheus/values.yaml prometheus-community/prometheus --generate-name
