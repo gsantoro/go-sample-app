@@ -51,14 +51,15 @@ tasks:
       DOCKER_TAG:
         sh: echo $DOCKER_TAG
 
+  # Note: requires `dev` instead of `up` since we want to open a bash terminal and distroless image (from `up` doesn't have a terminal)
   shell:
     cmds:
-      - docker exec -it {{.DOCKER_IMAGE}}:{{.DOCKER_TAG}} /bin/bash
+      - docker exec -it {{.DOCKER_ID}} /bin/bash
     vars:
-      DOCKER_IMAGE:
+      DOCKER_IMAGE: 
         sh: echo $DOCKER_IMAGE
-      DOCKER_TAG:
-        sh: echo $DOCKER_TAG
+      DOCKER_ID:
+        sh: docker ps --filter ancestor={{.DOCKER_IMAGE}} --format '{{`{{.Names}}`}}'
 
   up:
     env:
@@ -66,6 +67,14 @@ tasks:
     cmds:
       - task: go:build
       - task: build
+      - task: run
+
+  dev:
+    env:
+      GOOS: test
+    cmds:
+      - task: go:build
+      - task: build-test
       - task: run
 
   ping:
