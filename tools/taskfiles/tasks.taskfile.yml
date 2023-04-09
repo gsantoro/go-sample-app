@@ -28,6 +28,10 @@ tasks:
         vars:
           TASK_NAME: changie
 
+      - task: download
+        vars:
+          TASK_NAME: swagger
+
   download:
     cmds:
       - task: github:download

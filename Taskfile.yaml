@@ -13,10 +13,11 @@ vars:
 includes:
   changie: tools/taskfiles/lib/changie.taskfile.yml
   docker: tools/taskfiles/lib/docker.taskfile.yml
-  # swagger: tools/taskfiles/swagger.taskfile.yml
+  swagger: tools/taskfiles/lib/swagger.taskfile.yml
   go: tools/taskfiles/lib/go.taskfile.yml
   releaser: tools/taskfiles/lib/releaser.taskfile.yml
   devenv: tools/taskfiles/lib/devenv.taskfile.yml
+  
   env: tools/taskfiles/env.taskfile.yml
   tasks: tools/taskfiles/tasks.taskfile.yml
   
