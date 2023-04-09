@@ -14,32 +14,5 @@
     },
     "host": "localhost:8080",
     "basePath": "/api/v1",
-    "paths": {
-        "/health": {
-            "get": {
-                "description": "Responds with status=ok.",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Health"
-                ],
-                "summary": "Health",
-                "responses": {}
-            }
-        },
-        "/ping": {
-            "get": {
-                "description": "Responds with Pong.",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "ping"
-                ],
-                "summary": "Ping",
-                "responses": {}
-            }
-        }
-    }
+    "paths": {}
 }
