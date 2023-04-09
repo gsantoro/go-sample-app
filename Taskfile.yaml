@@ -26,6 +26,3 @@ tasks:
       - brew install go-task/tap/go-task
       - task: devenv:deps
       - task: gvm:deps
-
-  default:
-    - task: env

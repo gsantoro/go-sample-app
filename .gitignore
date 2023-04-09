@@ -56,8 +56,7 @@ build
 tmp
 tools/ascii
 dist/
-.env
-.env.docker
+.envs
 secrets
 # Devenv
 .devenv*
