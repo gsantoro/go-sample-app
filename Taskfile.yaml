@@ -1,7 +1,5 @@
 version: '3'
 
-# dotenv: ['.env']
-
 vars:
   WORKSPACE: "~/workspace/personal"
   KUBERNETES_VERSION: v1.24.0
@@ -28,12 +26,6 @@ tasks:
       - brew install go-task/tap/go-task
       - task: devenv:deps
       - task: gvm:deps
-      # - task: asciinema:deps
-      # - task: docker:deps
-      # - task: grafana:deps
-      # - task: pre-commit:deps
-      # - task: prometheus:deps
-      # - task: releaser:deps
 
   default:
     - task: env
