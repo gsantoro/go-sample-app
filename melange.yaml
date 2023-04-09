@@ -1,0 +1,28 @@
+package:
+  name: go-sample-app
+  version: v0.0.1
+  description: Go-sample-app melange demo
+  target-architecture:
+    - all
+  copyright:
+    - license: Apache-2.0
+      paths:
+        - "*"
+  dependencies:
+    runtime:
+
+environment:
+  contents:
+    repositories:
+      - https://dl-cdn.alpinelinux.org/alpine/edge/main
+      - https://dl-cdn.alpinelinux.org/alpine/edge/community
+    packages:
+      - alpine-baselayout-data
+      - ca-certificates-bundle
+
+pipeline:
+  - uses: go/build
+    with:
+      tags: go_json
+      output: hello
+      packages: ./cmd/hello.go

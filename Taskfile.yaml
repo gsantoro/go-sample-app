@@ -15,9 +15,11 @@ includes:
   go: tools/taskfiles/lib/go.taskfile.yml
   releaser: tools/taskfiles/lib/releaser.taskfile.yml
   devenv: tools/taskfiles/lib/devenv.taskfile.yml
+  chainguard: tools/taskfiles/lib/chainguard.taskfile.yml
   
   env: tools/taskfiles/env.taskfile.yml
   tasks: tools/taskfiles/tasks.taskfile.yml
+  github: tools/taskfiles/github.taskfile.yml
   
 
 tasks:

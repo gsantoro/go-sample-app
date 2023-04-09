@@ -33,11 +33,15 @@ tasks:
         vars:
           TASK_NAME: swagger
 
+      - task: download_from_github
+        vars:
+          TASK_NAME: chainguard
+
   download_from_github:
     internal: true
     cmds:
       - task: github:download
         vars: 
           GITHUB_REPO: automation
-          GITHUB_PATH: tools/{{.TASK_NAME}}.taskfile.yml
+          GITHUB_PATH: tools/taskfiles/lib/{{.TASK_NAME}}.taskfile.yml
           LOCAL_PATH: tools/taskfiles/lib/{{.TASK_NAME}}.taskfile.yml

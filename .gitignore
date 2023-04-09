@@ -56,7 +56,7 @@ build
 tmp
 tools/ascii
 dist/
-.envs
+envs
 secrets
 # Devenv
 .devenv*
@@ -67,3 +67,7 @@ devenv.local.nix
 
 ## Automation taskfiles
 tools/taskfiles/lib
+
+melange.rsa*
+packages
+apko
