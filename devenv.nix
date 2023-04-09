@@ -19,6 +19,7 @@
     pkgs.dive
     pkgs.docker-slim
     pkgs.trivy
+    pkgs.curl
   ];
 
   # https://devenv.sh/scripts/

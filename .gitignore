@@ -63,3 +63,7 @@ secrets
 devenv.local.nix
 
 .direnv
+
+
+## Automation taskfiles
+tools/taskfiles/lib

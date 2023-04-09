@@ -1,0 +1,26 @@
+# https://taskfile.dev
+
+version: '3'
+
+tasks:
+  download:
+    cmds:
+      - |
+        curl -s -L {{.HEADER}} https://api.github.com/repos/{{.GITHUB_OWNER}}/{{.GITHUB_REPO}}/contents/{{.GITHUB_PATH}} 2>&1 \
+        > {{.LOCAL_PATH}}
+    vars:
+      GITHUB_OWNER:
+        sh: ./bin/env-var-default.sh $GITHUB_OWNER {{.GITHUB_OWNER}}
+      GITHUB_TOKEN:
+        sh: ./bin/env-var-default.sh $GITHUB_TOKEN {{.GITHUB_TOKEN}}
+      GITHUB_REPO:
+        sh: ./bin/env-var-default.sh $GITHUB_REPO {{.GITHUB_REPO}}
+      GITHUB_PATH:
+        sh: ./bin/env-var-default.sh $GITHUB_PATH {{.GITHUB_PATH}}
+      LOCAL_PATH:
+        sh: ./bin/env-var-default.sh $LOCAL_PATH {{.LOCAL_PATH}}
+      HEADER:
+        sh: |
+          echo "--header 'Authorization: Bearer {{.GITHUB_TOKEN}}' \
+          --header 'Accept: application/vnd.github.raw+json' \
+          --header 'X-GitHub-Api-Version: 2022-11-28'"

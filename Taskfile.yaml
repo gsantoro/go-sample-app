@@ -1,6 +1,6 @@
 version: '3'
 
-dotenv: ['.env']
+# dotenv: ['.env']
 
 vars:
   WORKSPACE: "~/workspace/personal"
@@ -11,20 +11,14 @@ vars:
 # do NOT use the following definition otherwise you won't be able to overwrite global variables
 #
 includes:
-  asciinema: tools/taskfiles/asciinema.taskfile.yaml
-  changie: tools/taskfiles/changie.taskfile.yaml
-  docker: tools/taskfiles/docker.taskfile.yaml
-  swagger: tools/taskfiles/swagger.taskfile.yaml
-  go: tools/taskfiles/go.taskfile.yaml
-  grafana: tools/taskfiles/grafana.taskfile.yaml
-  gvm: tools/taskfiles/gvm.taskfile.yaml
-  k8s: tools/taskfiles/k8s.taskfile.yaml
-  pre-commit: tools/taskfiles/pre-commit.taskfile.yaml
-  prometheus: tools/taskfiles/prometheus.taskfile.yaml
-  releaser: tools/taskfiles/releaser.taskfile.yaml
-  test: tools/taskfiles/test.taskfile.yaml
-  devenv: tools/taskfiles/devenv.taskfile.yaml
-  env: tools/taskfiles/env.taskfile.yaml
+  changie: tools/taskfiles/lib/changie.taskfile.yml
+  docker: tools/taskfiles/lib/docker.taskfile.yml
+  # swagger: tools/taskfiles/swagger.taskfile.yml
+  go: tools/taskfiles/lib/go.taskfile.yml
+  releaser: tools/taskfiles/lib/releaser.taskfile.yml
+  devenv: tools/taskfiles/lib/devenv.taskfile.yml
+  env: tools/taskfiles/env.taskfile.yml
+  tasks: tools/taskfiles/tasks.taskfile.yml
   
 
 tasks:
