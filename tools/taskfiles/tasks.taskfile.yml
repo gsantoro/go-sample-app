@@ -45,6 +45,10 @@ tasks:
         vars:
           TASK_NAME: chainguard
 
+      - task: download_from_github
+        vars:
+          TASK_NAME: wolfi
+
   download_from_github:
     internal: true
     cmds:
