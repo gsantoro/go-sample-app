@@ -17,6 +17,7 @@ includes:
   devenv: tools/taskfiles/lib/devenv.taskfile.yml
   chainguard: tools/taskfiles/lib/chainguard.taskfile.yml
   ghcr: tools/taskfiles/lib/ghcr.taskfile.yml
+  wolfi: tools/taskfiles/lib/wolfi.taskfile.yml
   env: tools/taskfiles/lib/env.taskfile.yml  # if not already in lib, download manually. used by `tasks`
   gh: tools/taskfiles/lib/gh.taskfile.yml  # if not already in lib, download manually. used by `tasks`
 
