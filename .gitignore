@@ -70,4 +70,4 @@ tools/taskfiles/lib
 
 melange.rsa*
 packages
-apko
+output/

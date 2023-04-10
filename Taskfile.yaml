@@ -16,10 +16,11 @@ includes:
   releaser: tools/taskfiles/lib/releaser.taskfile.yml
   devenv: tools/taskfiles/lib/devenv.taskfile.yml
   chainguard: tools/taskfiles/lib/chainguard.taskfile.yml
+  ghcr: tools/taskfiles/lib/ghcr.taskfile.yml
   
   env: tools/taskfiles/env.taskfile.yml
   tasks: tools/taskfiles/tasks.taskfile.yml
-  github: tools/taskfiles/github.taskfile.yml
+  gh: tools/taskfiles/gh.taskfile.yml
   
 
 tasks:

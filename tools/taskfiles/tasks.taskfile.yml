@@ -3,7 +3,7 @@
 version: '3'
 
 includes:
-  github: ./github.taskfile.yml
+  github: ./gh.taskfile.yml
   env: ./env.taskfile.yml
 
 tasks:

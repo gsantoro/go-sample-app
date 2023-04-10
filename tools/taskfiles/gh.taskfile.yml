@@ -27,4 +27,4 @@ tasks:
 
   env:
     cmds:
-      - export ENV_FILE=envs/.env.github && zsh
+      - export ENV_FILE=envs/.env.gh && zsh
