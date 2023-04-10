@@ -20,6 +20,7 @@
     pkgs.docker-slim
     pkgs.trivy
     pkgs.curl
+    pkgs.skaffold
   ];
 
   # https://devenv.sh/scripts/

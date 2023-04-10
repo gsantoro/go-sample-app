@@ -18,10 +18,14 @@ includes:
   chainguard: tools/taskfiles/lib/chainguard.taskfile.yml
   ghcr: tools/taskfiles/lib/ghcr.taskfile.yml
   wolfi: tools/taskfiles/lib/wolfi.taskfile.yml
+  kind: tools/taskfiles/lib/kind.taskfile.yml  
+  skaffold: tools/taskfiles/lib/skaffold.taskfile.yml
+
   env: tools/taskfiles/lib/env.taskfile.yml  # if not already in lib, download manually. used by `tasks`
   gh: tools/taskfiles/lib/gh.taskfile.yml  # if not already in lib, download manually. used by `tasks`
-
+  
   tasks: tools/taskfiles/tasks.taskfile.yml
+  
   
   
 

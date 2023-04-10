@@ -1,0 +1,13 @@
+apiVersion: skaffold/v4beta4
+kind: Config
+metadata:
+  name: go-sample-app
+build:
+  artifacts:
+    - image: ghcr.io/gsantoro/go-sample-app
+      docker:
+        dockerfile: deployments/docker/Dockerfile
+manifests:
+  rawYaml:
+    - deployments/kubernetes/kustomize/cm.yaml
+    - deployments/kubernetes/kustomize/pod.yaml

@@ -49,6 +49,14 @@ tasks:
         vars:
           TASK_NAME: wolfi
 
+      - task: download_from_github
+        vars:
+          TASK_NAME: kind
+
+      - task: download_from_github
+        vars:
+          TASK_NAME: skaffold
+
   download_from_github:
     internal: true
     cmds:

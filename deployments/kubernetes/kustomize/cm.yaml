@@ -1,0 +1,9 @@
+apiVersion: v1
+data:
+  HOSTNAME: 0.0.0.0
+  PORT: "8085"
+kind: ConfigMap
+metadata:
+  name: app
+  namespace: default
+  
