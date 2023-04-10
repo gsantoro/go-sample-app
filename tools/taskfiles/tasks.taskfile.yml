@@ -3,12 +3,20 @@
 version: '3'
 
 includes:
-  github: ./gh.taskfile.yml
-  env: ./env.taskfile.yml
+  github: ./lib/gh.taskfile.yml
+  env: ./lib/env.taskfile.yml
 
 tasks:
   default:
     cmds:
+      - task: download_from_github
+        vars:
+          TASK_NAME: gh
+
+      - task: download_from_github
+        vars:
+          TASK_NAME: env
+
       - task: download_from_github
         vars:
           TASK_NAME: go
