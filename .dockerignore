@@ -8,3 +8,21 @@ cmd
 go.mod
 go.sum
 .git
+
+# chainguard
+melange.*
+apko.*
+packages/
+output/
+
+# taskfile + various
+*.todo
+Takfile.yaml
+bin/
+.changes/
+.github/
+
+# devenv
+.direnv/
+.devenv/
+devenv.*

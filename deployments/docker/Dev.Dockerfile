@@ -1,5 +1,5 @@
 # https://github.com/GoogleContainerTools/distroless
-FROM gcr.io/distroless/static-debian11
+FROM debian:11.6
 
 # more info at https://docs.github.com/en/packages/learn-github-packages/connecting-a-repository-to-a-package#connecting-a-repository-to-a-container-image-using-the-command-line
 LABEL org.opencontainers.image.source=https://github.com/gsantoro/go-sample-app

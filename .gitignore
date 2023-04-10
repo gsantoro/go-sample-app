@@ -56,8 +56,7 @@ build
 tmp
 tools/ascii
 dist/
-.env
-.env.docker
+envs
 secrets
 # Devenv
 .devenv*
@@ -68,3 +67,7 @@ devenv.local.nix
 
 ## Automation taskfiles
 tools/taskfiles/lib
+
+melange.rsa*
+packages
+output/

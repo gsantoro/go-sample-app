@@ -15,9 +15,14 @@ includes:
   go: tools/taskfiles/lib/go.taskfile.yml
   releaser: tools/taskfiles/lib/releaser.taskfile.yml
   devenv: tools/taskfiles/lib/devenv.taskfile.yml
-  
-  env: tools/taskfiles/env.taskfile.yml
+  chainguard: tools/taskfiles/lib/chainguard.taskfile.yml
+  ghcr: tools/taskfiles/lib/ghcr.taskfile.yml
+  wolfi: tools/taskfiles/lib/wolfi.taskfile.yml
+  env: tools/taskfiles/lib/env.taskfile.yml  # if not already in lib, download manually. used by `tasks`
+  gh: tools/taskfiles/lib/gh.taskfile.yml  # if not already in lib, download manually. used by `tasks`
+
   tasks: tools/taskfiles/tasks.taskfile.yml
+  
   
 
 tasks:
@@ -26,6 +31,3 @@ tasks:
       - brew install go-task/tap/go-task
       - task: devenv:deps
       - task: gvm:deps
-
-  default:
-    - task: env

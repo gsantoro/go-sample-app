@@ -3,39 +3,57 @@
 version: '3'
 
 includes:
-  github: ./github.taskfile.yml
+  github: ./lib/gh.taskfile.yml
+  env: ./lib/env.taskfile.yml
 
 tasks:
   default:
     cmds:
-      - task: download
+      - task: download_from_github
+        vars:
+          TASK_NAME: gh
+
+      - task: download_from_github
+        vars:
+          TASK_NAME: env
+
+      - task: download_from_github
         vars:
           TASK_NAME: go
 
-      - task: download
+      - task: download_from_github
         vars:
           TASK_NAME: docker
 
-      - task: download
+      - task: download_from_github
         vars:
           TASK_NAME: devenv
 
-      - task: download
+      - task: download_from_github
         vars:
           TASK_NAME: releaser
 
-      - task: download
+      - task: download_from_github
         vars:
           TASK_NAME: changie
 
-      - task: download
+      - task: download_from_github
         vars:
           TASK_NAME: swagger
 
-  download:
+      - task: download_from_github
+        vars:
+          TASK_NAME: chainguard
+
+      - task: download_from_github
+        vars:
+          TASK_NAME: wolfi
+
+  download_from_github:
+    internal: true
     cmds:
       - task: github:download
         vars: 
           GITHUB_REPO: automation
-          GITHUB_PATH: tools/{{.TASK_NAME}}.taskfile.yml
+          GITHUB_PATH: tools/taskfiles/lib/{{.TASK_NAME}}.taskfile.yml
           LOCAL_PATH: tools/taskfiles/lib/{{.TASK_NAME}}.taskfile.yml
