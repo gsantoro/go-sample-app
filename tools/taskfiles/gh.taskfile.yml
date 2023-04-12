@@ -1,0 +1,15 @@
+# https://taskfile.dev
+
+version: '3'
+
+tasks:
+  download:
+    cmds:
+      - |
+        curl -s -L {{.HEADER}} https://api.github.com/repos/{{.GITHUB_OWNER}}/{{.GITHUB_REPO}}/contents/{{.GITHUB_PATH}} 2>&1 > {{.LOCAL_PATH}}
+    vars:
+      HEADER:
+        sh: |
+          echo "--header 'Authorization: Bearer {{.GITHUB_TOKEN}}' \
+          --header 'Accept: application/vnd.github.raw+json' \
+          --header 'X-GitHub-Api-Version: 2022-11-28'"

@@ -3,20 +3,11 @@
 version: '3'
 
 includes:
-  github: ./lib/gh.taskfile.yml
-  env: ./lib/env.taskfile.yml
+  github: ./gh.taskfile.yml
 
 tasks:
   default:
     cmds:
-      - task: download_from_github
-        vars:
-          TASK_NAME: gh
-
-      - task: download_from_github
-        vars:
-          TASK_NAME: env
-
       - task: download_from_github
         vars:
           TASK_NAME: go
@@ -28,18 +19,6 @@ tasks:
       - task: download_from_github
         vars:
           TASK_NAME: devenv
-
-      - task: download_from_github
-        vars:
-          TASK_NAME: releaser
-
-      - task: download_from_github
-        vars:
-          TASK_NAME: changie
-
-      - task: download_from_github
-        vars:
-          TASK_NAME: swagger
 
       - task: download_from_github
         vars:
