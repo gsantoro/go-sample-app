@@ -5,14 +5,14 @@ tmp_dir = "build"
 [build]
   args_bin = []
   # bin = ""
-  cmd = "cd tools && task go:rebuild"
+  cmd = "cd envs/go && task go:rebuild"
   delay = 10000
   exclude_dir = ["build", ".github", ".vscode", "tools", "dist"]
   exclude_file = [".gitignore", ".dockerignore", ".golangci.yml", "go.mod", "go.sum", "README.md"]
   exclude_regex = ["_test.go"]
   exclude_unchanged = false
   follow_symlink = true
-  full_bin = "cd tools && task go:run"
+  full_bin = "cd envs/go && task go:run"
   include_dir = ["cmd", ".", "internal"]
   include_ext = ["go", "tpl", "tmpl", "html"]
   kill_delay = "1s"
