@@ -57,19 +57,21 @@ tmp
 tools/ascii
 dist/
 secrets
+
 # Devenv
 .devenv*
 devenv.local.nix
-
 .direnv
 .env.private
 
 ## Automation taskfiles
 tools/taskfiles/lib
 
-melange.rsa*
-packages
-output/
 
 # chainguard
-apko/
+apko/*
+!apko/.gitkeep
+
+melange.rsa*
+packages/*
+output/
