@@ -1,7 +1,7 @@
 module github.com/gsantoro/go-sample-app
 
 require (
-	github.com/rs/zerolog v1.29.0
+	github.com/rs/zerolog v1.29.1
 	github.com/swaggo/files v1.0.1
 	github.com/swaggo/gin-swagger v1.6.0
 	github.com/swaggo/swag v1.8.12
