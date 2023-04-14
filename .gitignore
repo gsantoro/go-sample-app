@@ -70,3 +70,6 @@ tools/taskfiles/lib
 melange.rsa*
 packages
 output/
+
+# chainguard
+apko/

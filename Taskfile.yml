@@ -12,6 +12,7 @@ includes:
   docker: tools/taskfiles/lib/docker.taskfile.yml
   go: tools/taskfiles/lib/go.taskfile.yml
   devenv: tools/taskfiles/lib/devenv.taskfile.yml
+  direnv: tools/taskfiles/lib/direnv.taskfile.yml
   chainguard: tools/taskfiles/lib/chainguard.taskfile.yml
   kind: tools/taskfiles/lib/kind.taskfile.yml  
   skaffold: tools/taskfiles/lib/skaffold.taskfile.yml
