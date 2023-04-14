@@ -18,9 +18,9 @@
     pkgs.gocyclo
     pkgs.dive
     pkgs.docker-slim
-    pkgs.trivy
     pkgs.curl
     pkgs.skaffold
+    pkgs.trivy
   ];
 
   # https://devenv.sh/scripts/
