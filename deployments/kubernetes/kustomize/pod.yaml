@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: go-sample-app
+  name: go-sample-app
+spec:
+  containers:
+  - image: ghcr.io/gsantoro/go-sample-app:distroless
+    name: go-sample-app
+    envFrom:
+    - configMapRef:
+        name: app
+    ports:
+    - containerPort: 8085
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always

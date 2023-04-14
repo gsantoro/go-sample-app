@@ -56,14 +56,13 @@ build
 tmp
 tools/ascii
 dist/
-envs
 secrets
 # Devenv
 .devenv*
 devenv.local.nix
 
 .direnv
-
+.env.private
 
 ## Automation taskfiles
 tools/taskfiles/lib
