@@ -6,7 +6,7 @@ build:
   artifacts:
     - image: ghcr.io/gsantoro/go-sample-app
       docker:
-        dockerfile: deployments/docker/Dockerfile
+        dockerfile: deployments/docker/Wolfi.Dockerfile
 manifests:
   rawYaml:
     - deployments/kubernetes/kustomize/cm.yaml

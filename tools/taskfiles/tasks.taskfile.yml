@@ -30,7 +30,7 @@ tasks:
 
       - task: download_from_github
         vars:
-          TASK_NAME: kind
+          TASK_NAME: k8s.kind
 
       - task: download_from_github
         vars:

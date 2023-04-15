@@ -1,10 +1,5 @@
 version: '3'
 
-vars:
-  WORKSPACE: "~/workspace/personal"
-  KUBERNETES_VERSION: v1.24.0
-  
-
 ### IMPORTANT NOTE: only import via inline definition. 
 # do NOT use the following definition otherwise you won't be able to overwrite global variables
 #
@@ -14,7 +9,7 @@ includes:
   devenv: tools/taskfiles/lib/devenv.taskfile.yml
   direnv: tools/taskfiles/lib/direnv.taskfile.yml
   chainguard: tools/taskfiles/lib/chainguard.taskfile.yml
-  kind: tools/taskfiles/lib/kind.taskfile.yml  
+  k8s-kind: tools/taskfiles/lib/k8s.kind.taskfile.yml  
   skaffold: tools/taskfiles/lib/skaffold.taskfile.yml
   trivy: tools/taskfiles/lib/trivy.taskfile.yml
 
