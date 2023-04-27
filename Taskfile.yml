@@ -4,6 +4,13 @@ version: '3'
 # do NOT use the following definition otherwise you won't be able to overwrite global variables
 #
 includes:
+  # Note:
+  # All the taskfiles under `tools/taskfiles/lib` are downloaded automatically from another github repo gsantoro/automation.
+  # If those files are not there already, follow these steps:
+  # 1. comment out all the following lines in the include section for taskfiles under `tools/taskfiles/lib`
+  # 2. Run `task automation`
+  # 3. Uncomment again those includes from `tools/taskfiles/lib`.
+  # 4. If one of those files is still missing, check that it is imported under `tools/taskfiles/automation.taskfile.yml`, Repeat the steps from 1 if needed.
   docker: tools/taskfiles/lib/docker.taskfile.yml
   go: tools/taskfiles/lib/go.taskfile.yml
   devenv: tools/taskfiles/lib/devenv.taskfile.yml
@@ -16,11 +23,7 @@ includes:
   prometheus: tools/taskfiles/lib/prometheus.taskfile.yml
   grafana: tools/taskfiles/lib/grafana.taskfile.yml
 
-  gh: tools/taskfiles/gh.taskfile.yml  # if not already in lib, download manually. used by `tasks`
-  
-  tasks: tools/taskfiles/tasks.taskfile.yml
-  
-  
+  automation: tools/taskfiles/automation.taskfile.yml
   
 
 tasks:

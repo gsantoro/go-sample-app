@@ -1,9 +1,6 @@
 { pkgs, ... }:
 
 {
-  # https://devenv.sh/basics/
-  # env.GREET = "devenv";
-
   # https://devenv.sh/packages/
   packages = [ 
     pkgs.git 
@@ -26,6 +23,7 @@
   ];
 
   devcontainer.enable = true;
+  devcontainer.settings.image = "ghcr.io/gsantoro/devenv:latest";
 
   languages.go.enable = true;
 

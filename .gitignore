@@ -65,7 +65,7 @@ devenv.local.nix
 .env.private
 
 ## Automation taskfiles
-tools/taskfiles/lib
+tools/taskfiles/lib/*.yml
 
 
 # chainguard

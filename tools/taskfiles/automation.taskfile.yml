@@ -18,6 +18,10 @@ tasks:
 
       - task: download_from_github
         vars:
+          TASK_NAME: direnv
+
+      - task: download_from_github
+        vars:
           TASK_NAME: devenv
 
       - task: download_from_github
