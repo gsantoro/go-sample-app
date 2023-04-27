@@ -25,7 +25,7 @@
     pkgs.go-task
   ];
 
-  # devcontainer.enable = true;
+  devcontainer.enable = true;
 
   languages.go.enable = true;
 
