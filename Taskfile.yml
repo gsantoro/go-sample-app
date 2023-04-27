@@ -12,6 +12,9 @@ includes:
   k8s-kind: tools/taskfiles/lib/k8s.kind.taskfile.yml  
   skaffold: tools/taskfiles/lib/skaffold.taskfile.yml
   trivy: tools/taskfiles/lib/trivy.taskfile.yml
+  helm: tools/taskfiles/lib/helm.taskfile.yml
+  prometheus: tools/taskfiles/lib/prometheus.taskfile.yml
+  grafana: tools/taskfiles/lib/grafana.taskfile.yml
 
   gh: tools/taskfiles/gh.taskfile.yml  # if not already in lib, download manually. used by `tasks`
   

@@ -34,7 +34,15 @@ tasks:
 
       - task: download_from_github
         vars:
+          TASK_NAME: trivy
+
+      - task: download_from_github
+        vars:
           TASK_NAME: skaffold
+
+      - task: download_from_github
+        vars:
+          TASK_NAME: helm
 
   download_from_github:
     internal: true

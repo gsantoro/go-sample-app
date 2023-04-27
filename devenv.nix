@@ -21,22 +21,17 @@
     pkgs.curl
     pkgs.skaffold
     pkgs.trivy
+    pkgs.kubernetes-helm
+    pkgs.go-task
   ];
 
-  # https://devenv.sh/scripts/
-  # scripts.hello.exec = "echo hello from $GREET";
+  # devcontainer.enable = true;
 
-  enterShell = ''
-  '';
-
-  # https://devenv.sh/languages/
-  # languages.nix.enable = true;
-
-  # https://devenv.sh/pre-commit-hooks/
-  # pre-commit.hooks.shellcheck.enable = true;
+  languages.go.enable = true;
 
   # https://devenv.sh/processes/
-  # processes.ping.exec = "ping example.com";
+  processes.grafana-pf.exec = "task grafana:pf";
+  processes.prometheus-pf.exec = "task prometheus:pf";
 
   # See full reference at https://devenv.sh/reference/options/
 }
