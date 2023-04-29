@@ -4,6 +4,15 @@ version: '3'
 # do NOT use the following definition otherwise you won't be able to overwrite global variables
 #
 includes:
+  # NOTE: How to use it. 
+  # All the taskfiles under `tools/taskfiles/lib` are automatically downloaded from the `gsantoro/automation` repo
+  # thanks to the taskfile `automation`. If those taskfiles are not there yet, follow these steps
+  # 1. Comment out all the taskfiles with paths that start with `tools/taskfiles/lib`
+  # 2. Run `task automation`
+  # 3. Uncomment all the taskfiles with paths that start with `tools/taskfiles/lib`
+  #
+  # For this to work you need to have a .env.private with `GITHUB_TOKEN`.
+  # This file is not under git since it contain secrets
   docker: tools/taskfiles/lib/docker.taskfile.yml
   go: tools/taskfiles/lib/go.taskfile.yml
   devenv: tools/taskfiles/lib/devenv.taskfile.yml
@@ -16,15 +25,5 @@ includes:
   prometheus: tools/taskfiles/lib/prometheus.taskfile.yml
   grafana: tools/taskfiles/lib/grafana.taskfile.yml
 
-  gh: tools/taskfiles/gh.taskfile.yml  # if not already in lib, download manually. used by `tasks`
+  automation: tools/taskfiles/automation.taskfile.yml
   
-  tasks: tools/taskfiles/tasks.taskfile.yml
-  
-  
-  
-
-tasks:
-  deps:
-    desc: Install dependencies
-    cmds:
-      - brew install go-task/tap/go-task

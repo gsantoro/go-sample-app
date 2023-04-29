@@ -22,6 +22,10 @@ tasks:
 
       - task: download_from_github
         vars:
+          TASK_NAME: direnv
+
+      - task: download_from_github
+        vars:
           TASK_NAME: chainguard
 
       - task: download_from_github
@@ -43,6 +47,14 @@ tasks:
       - task: download_from_github
         vars:
           TASK_NAME: helm
+
+      - task: download_from_github
+        vars:
+          TASK_NAME: prometheus
+
+      - task: download_from_github
+        vars:
+          TASK_NAME: grafana
 
   download_from_github:
     internal: true
