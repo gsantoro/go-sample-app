@@ -22,19 +22,35 @@ tasks:
 
       - task: download_from_github
         vars:
+          TASK_NAME: direnv
+
+      - task: download_from_github
+        vars:
           TASK_NAME: chainguard
 
       - task: download_from_github
         vars:
-          TASK_NAME: wolfi
-
-      - task: download_from_github
-        vars:
-          TASK_NAME: k8s.kind
+          TASK_NAME: trivy
 
       - task: download_from_github
         vars:
           TASK_NAME: skaffold
+
+      - task: download_from_github
+        vars:
+          TASK_NAME: helm
+
+      - task: download_from_github
+        vars:
+          TASK_NAME: prometheus
+
+      - task: download_from_github
+        vars:
+          TASK_NAME: grafana
+
+      - task: download_from_github
+        vars:
+          TASK_NAME: k3d
 
   download_from_github:
     internal: true

@@ -6,7 +6,7 @@ metadata:
   name: go-sample-app
 spec:
   containers:
-  - image: ghcr.io/gsantoro/go-sample-app:distroless
+  - image: ghcr.io/gsantoro/go-sample-app:wolfi
     name: go-sample-app
     envFrom:
     - configMapRef:
