@@ -18,12 +18,14 @@ includes:
   devenv: tools/taskfiles/lib/devenv.taskfile.yml
   direnv: tools/taskfiles/lib/direnv.taskfile.yml
   chainguard: tools/taskfiles/lib/chainguard.taskfile.yml
-  k8s-kind: tools/taskfiles/lib/k8s.kind.taskfile.yml  
   skaffold: tools/taskfiles/lib/skaffold.taskfile.yml
   trivy: tools/taskfiles/lib/trivy.taskfile.yml
   helm: tools/taskfiles/lib/helm.taskfile.yml
   prometheus: tools/taskfiles/lib/prometheus.taskfile.yml
   grafana: tools/taskfiles/lib/grafana.taskfile.yml
+  k3d: tools/taskfiles/lib/k3d.taskfile.yml
 
   automation: tools/taskfiles/automation.taskfile.yml
+  main: tools/taskfiles/main.taskfile.yml
+  
   

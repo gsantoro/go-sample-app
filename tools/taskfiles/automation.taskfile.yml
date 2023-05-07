@@ -30,14 +30,6 @@ tasks:
 
       - task: download_from_github
         vars:
-          TASK_NAME: wolfi
-
-      - task: download_from_github
-        vars:
-          TASK_NAME: k8s.kind
-
-      - task: download_from_github
-        vars:
           TASK_NAME: trivy
 
       - task: download_from_github
@@ -55,6 +47,10 @@ tasks:
       - task: download_from_github
         vars:
           TASK_NAME: grafana
+
+      - task: download_from_github
+        vars:
+          TASK_NAME: k3d
 
   download_from_github:
     internal: true

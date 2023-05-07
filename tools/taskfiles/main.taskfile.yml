@@ -1,0 +1,15 @@
+# https://taskfile.dev
+
+version: '3'
+
+includes:
+  go: ./lib/go.taskfile.yml
+  docker: ./lib/docker.taskfile.yml
+
+tasks:
+  # Note: How to use 
+  #   cd envs/wolfi-ghcr
+  #   t main:docker
+  docker:
+    - task: go:build
+    - task: docker:deploy
