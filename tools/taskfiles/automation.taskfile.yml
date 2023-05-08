@@ -26,10 +26,6 @@ tasks:
 
       - task: download_from_github
         vars:
-          TASK_NAME: chainguard
-
-      - task: download_from_github
-        vars:
           TASK_NAME: trivy
 
       - task: download_from_github

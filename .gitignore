@@ -66,12 +66,3 @@ devenv.local.nix
 
 ## Automation taskfiles
 tools/taskfiles/lib/*.yml
-
-
-# chainguard
-apko/*
-!apko/.gitkeep
-
-melange.rsa*
-packages/*
-output/
