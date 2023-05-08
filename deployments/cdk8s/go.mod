@@ -3,7 +3,7 @@ module example.com/cdk8s
 go 1.18
 
 require (
-	github.com/aws/constructs-go/constructs/v10 v10.2.16
+	github.com/aws/constructs-go/constructs/v10 v10.2.17
 	github.com/aws/jsii-runtime-go v1.80.0
 	github.com/cdk8s-team/cdk8s-core-go/cdk8s/v2 v2.7.56
 )

@@ -24,6 +24,7 @@ includes:
   prometheus: tools/taskfiles/lib/prometheus.taskfile.yml
   grafana: tools/taskfiles/lib/grafana.taskfile.yml
   k3d: tools/taskfiles/lib/k3d.taskfile.yml
+  ckd8s: tools/taskfiles/lib/cdk8s.taskfile.yml
 
   automation: tools/taskfiles/automation.taskfile.yml
   main: tools/taskfiles/main.taskfile.yml
