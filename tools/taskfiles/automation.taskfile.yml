@@ -52,6 +52,10 @@ tasks:
         vars:
           TASK_NAME: k3d
 
+      - task: download_from_github
+        vars:
+          TASK_NAME: cdk8s
+
   download_from_github:
     internal: true
     cmds:
